@@ -2,6 +2,7 @@
 
 // 公共助手函数
 
+use think\Config;
 use think\exception\HttpResponseException;
 use think\Response;
 
@@ -558,5 +559,35 @@ if (!function_exists('build_suffix_image')) {
         </svg>
 EOT;
         return $icon;
+    }
+}
+
+if (!function_exists('get_token')) {
+    function get_token($refresh = false)
+    {
+        //允许的主机列表
+        try {
+            if($refresh === false){
+                $token = cache('token');
+                if($token){
+                    return $token;
+                }
+            }
+            $key = Config::get('payment.appkey');
+            $secret = Config::get('payment.secret');
+            $result = \fast\Http::get("https://oauth.open.weidian.com/token", ['grant_type' => "client_credential", "appkey" => $key, "secret" => $secret]);
+//            $result = '{"result":{"access_token":"d608dcb7c7950868a4b22105177017f01d8ae3ce72","expire_in":90000},"status":{"status_code":0,"status_reason":"success"}}';
+            $result = json_decode($result,true);
+            if($result['status']['status_code'] === 0 && isset($result['result']['access_token'])){
+                $token = $result['result']['access_token'];
+                cache("token",$token,['expire'=>$result['result']['expire_in']]);
+            }else{
+                \think\Log::error('call_payment_token_error'.json_encode($result));
+            }
+            return $token;
+        }catch (Exception $exception){
+            \think\Log::error('call_payment_token_error'.json_encode($exception->getMessage()));
+        }
+        return false;
     }
 }

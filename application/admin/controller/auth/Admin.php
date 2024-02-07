@@ -122,6 +122,7 @@ class Admin extends Backend
         if ($this->request->isPost()) {
             $this->token();
             $params = $this->request->post("row/a");
+
             if ($params) {
                 Db::startTrans();
                 try {

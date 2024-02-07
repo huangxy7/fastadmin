@@ -1,0 +1,74 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Order_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-order_id" class="form-control" name="row[order_id]" type="text" value="{$row.order_id|htmlentities}" readonly="readonly">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[time]" type="text" value="{$row.time}" readonly="readonly">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Seller_note')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-seller_note" class="form-control" name="row[seller_note]" type="text" value="{$row.seller_note|htmlentities}" readonly="readonly">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Total')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-total" class="form-control" name="row[total]" type="text" value="{$row.total|htmlentities}" readonly="readonly">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">处理设备:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-device" class="form-control" name="row[device]" type="text" value="{$row.device|htmlentities}" readonly="readonly">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">账号名称:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-accountName" class="form-control" name="row[accountName]" type="text" value="{$row.accountName|htmlentities}" readonly="readonly">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Shop_detail')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {foreach name="items" item="vo"}
+            <input id="c" class="form-control"  type="text" value="{$vo.merchant_code|htmlentities}" readonly="readonly">
+            {/foreach}
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('CustomInfos_value')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {foreach name="customInfos" item="vo"}
+            <input id="c" class="form-control"  type="text" value="{$vo.value|htmlentities}" readonly="readonly">
+            {/foreach}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-system_status_name" class="form-control" name="row[system_status_name]" type="text" value="{$row.system_status_name|htmlentities}" >
+        </div>
+    </div>
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>
