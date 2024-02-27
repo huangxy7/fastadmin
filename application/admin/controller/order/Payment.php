@@ -48,12 +48,24 @@ class Payment extends Backend
         if (false === $this->request->isAjax()) {
             return $this->view->fetch();
         }
+
+        // 获取前端提交的参数
+        $filter = json_decode($this->request->get("filter", ''),true);
+        $op = json_decode($this->request->get("op", '', 'trim'),true);
+        // 更改订单筛选条件
+        if (isset($filter['total'])) {
+            if ($filter['total']){
+                $op['total'] = '>'; // 条件
+            }
+        }
+        $this->request->get(['filter'=>json_encode($filter,true)]);
+        $this->request->get(['op'=>json_encode($op,true)]);
+
         //如果发送的来源是 Selectpage，则转发到 Selectpage
         if ($this->request->request('keyField')) {
             return $this->selectpage();
         }
         [$where, $sort, $order, $offset, $limit] = $this->buildparams();
-        // var_export($this->buildparams());die;
         $list = $this->model
             ->where($where)
             ->order($sort, $order)

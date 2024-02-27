@@ -55,11 +55,12 @@ class Index extends Api
         if ($get_data['value'] == 0) {
             $this->error('已停止处理订单');
         }
+        $get_value = \app\common\model\Config::where('name', 'get_value')->find();
         $model = new \app\admin\model\Payment;
         while (true) {
             $dataArray = cache('get_array');
             if (!$dataArray) {
-                $dataArray = $model->where('order_type', 'unship')->where('system_status', 0)->field('id')->limit(50)->select();
+                $dataArray = $model->where('order_type', 'unship')->where('system_status', 0)->field('id')->where('total',">=",$get_value['value'])->limit(50)->select();
 //                \think\Log::info('info_getPaymentList_redis_array' . json_encode($dataArray, JSON_UNESCAPED_UNICODE));
                 if (!$dataArray) {
                     $this->error('暂无数据');

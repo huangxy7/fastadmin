@@ -23,10 +23,10 @@ return array (
   'configgroup' => 
   array (
     'basic' => 'Basic',
-    'email' => 'Email',
-    'dictionary' => 'Dictionary',
-    'user' => 'User',
-    'example' => 'Example',
+//    'email' => 'Email',
+//    'dictionary' => 'Dictionary',
+//    'user' => 'User',
+//    'example' => 'Example',
   ),
   'mail_type' => '1',
   'mail_smtp_host' => 'smtp.qq.com',

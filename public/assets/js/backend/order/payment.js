@@ -1,4 +1,4 @@
-define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefined, Backend, Table, Form) {
+define(['jquery', 'bootstrap', 'backend', 'table', 'form','clipboard.min'], function ($, undefined, Backend, Table, Form,ClipboardJS) {
 
     var Controller = {
         index: function () {
@@ -14,7 +14,14 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     table: 'payment',
                 }
             });
-
+            //绑定复制事件
+            var clipboard = new ClipboardJS('.btn-copy');
+            clipboard.on('success', function(e) {
+                Toastr.success('复制成功');
+            });
+            clipboard.on('error', function(e) {
+                Toastr.error('复制失败，请刷新后重试');
+            });
             var table = $("#table");
 
             // 初始化表格
@@ -35,7 +42,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'device', title: "处理设备", operate: 'LIKE', table: table},// 处理设备、
                         {field: 'accountName', title: "账号名称", operate: 'LIKE', table: table},// 账号名称、
                         {field: 'merchant_code', title: __('Merchant_code'), operate: 'LIKE', table: table},// 商品编号、
-                        {field: 'customInfos_value', title: __('CustomInfos_value'), operate: 'LIKE', table: table, class: 'autocontent', formatter: Table.api.formatter.content},             // 充值账号、
+                        {field: 'customInfos_value', title: __('CustomInfos_value'), operate: 'LIKE', table: table, class: 'autocontent', formatter:function (value,row,index){
+                                return '<a href="javascript:;"  data-clipboard-text="'+value+'" class="btn-copy" data-toggle="tooltip" data-original-title="点击复制">'+value+'</a>';
+                            }},             // 充值账号、
                         {field: 'system_status_name', title: __('System_status'),  operate: 'LIKE', table: table}, // 处理状态
                         // {field: 'buyer_note', title: __('Buyer_note'), operate: 'LIKE', table: table, class: 'autocontent', formatter: Table.api.formatter.content},
                         // {field: 'total', title: __('Total'), operate: 'LIKE', table: table, class: 'autocontent', formatter: Table.api.formatter.content},
@@ -113,7 +122,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 },3000)
 
             });
-
+            setInterval(function (){table.bootstrapTable('refresh',{silent: true });}, 3000);
         },
         add: function () {
             Controller.api.bindevent();
