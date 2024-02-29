@@ -60,7 +60,7 @@ class Index extends Api
         while (true) {
             $dataArray = cache('get_array');
             if (!$dataArray) {
-                $dataArray = $model->where('order_type', 'unship')->where('system_status', 0)->field('id')->where('total',">=",$get_value['value'])->limit(50)->select();
+                $dataArray = $model->where('order_type', 'unship')->where('system_status', 0)->field('id')->where('total',"<=",$get_value['value'])->limit(50)->select();
 //                \think\Log::info('info_getPaymentList_redis_array' . json_encode($dataArray, JSON_UNESCAPED_UNICODE));
                 if (!$dataArray) {
                     $this->error('暂无数据');
@@ -104,7 +104,7 @@ class Index extends Api
         $order_id = $param['order_id'] ?? "";
         $device = $param['device'] ?? "";
         $accountName = $param['accountName'] ?? "";
-        if (!$order_id) {
+         if (!$order_id) {
             $this->error('参数错误');
         }
         $model = new \app\admin\model\Payment;

@@ -68,6 +68,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','clipboard.min'], func
                         // 10 退款完成（同意退款或收到退货后同意退款，退款流程完成，资金流程开始）
                         // {field: 'express_fee', title: __('Express_fee'), operate: 'LIKE', table: table, class: 'autocontent', formatter: Table.api.formatter.content},
                         // {field: 'refundStatus', title: __('Refundstatus'),searchList: {"":__('未发起退款'),0:__('未发起退款'),1:__('申请退款或退款'),3:__('拒绝退款'),4:__('退货流程同意退货'),5:__('退货流程拒绝退货'),6:__('退货流程已提交退货物流信息'),7:__('换货发货'),9:__('退款取消'),10:__('退款完成')}, formatter: Table.api.formatter.status},
+                        {field: 'create_time', title: __('创建时间'), operate: 'LIKE', table: table},// 订单总价、
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
                 ]
@@ -108,6 +109,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','clipboard.min'], func
 
                 table.trigger("uncheckbox");
                 table.bootstrapTable('refresh', {pageNumber: 1});
+  
                 return false;
             });
             // 启动和暂停按钮
@@ -122,7 +124,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','clipboard.min'], func
                 },3000)
 
             });
-            setInterval(function (){table.bootstrapTable('refresh',{silent: true });}, 3000);
+                          setInterval(function (){table.bootstrapTable('refresh',{silent: true });}, 3000);
+            
+
         },
         add: function () {
             Controller.api.bindevent();
