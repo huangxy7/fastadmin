@@ -42,9 +42,6 @@ class Payment extends Command
                     $data = $result['result']['orders'];
                     foreach ($data as $value) {
                         $isset = $paymentModel->where('order_id', $value['order_id'])->find();
-                        if ($isset) {
-                            continue;
-                        }
                         //call api 获取订单详情
                         $orderDetail = \fast\Http::get('https://api.vdian.com/api?param={"order_id":"' . $value['order_id'] . '"}&public={"method":"vdian.order.get","access_token":"' . $token . '","version":"1.0","format":"json"}');
                         $orderDetail = json_decode($orderDetail, true);
@@ -81,7 +78,15 @@ class Payment extends Command
                             'order_type' => $order_type,
                             'order_json'   => json_encode($resOrderDetail, JSON_UNESCAPED_UNICODE),//商品总价格，不包含运费
                         ];
-                        $result = $paymentModel->create($params);
+                        if($isset){
+                            unset($params['order_id']);
+                            unset($params['system_status']);
+                            unset($params['system_status_name']);
+                            $paymentModel->where('order_id', $value['order_id'])->update($params);
+                        }else{
+                            $result = $paymentModel->create($params);
+                        }
+
                         if ($result === false) {
                             \think\Log::error('install_payment_list_data_error' . json_encode($params, JSON_UNESCAPED_UNICODE));
                         }
