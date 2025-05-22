@@ -226,7 +226,7 @@ class Install extends Command
         }
 
         // 设置新的Token随机密钥key
-        $oldTokenKey = config('token.key');
+        $oldTokenKey = config('doudian.key');
         $newTokenKey = \fast\Random::alnum(32);
         $coreConfigFile = CONF_PATH . 'config.php';
         $coreConfigText = @file_get_contents($coreConfigFile);

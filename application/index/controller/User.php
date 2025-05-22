@@ -35,19 +35,19 @@ class User extends Frontend
         Hook::add('user_login_successed', function ($user) use ($auth) {
             $expire = input('post.keeplogin') ? 30 * 86400 : 0;
             Cookie::set('uid', $user->id, $expire);
-            Cookie::set('token', $auth->getToken(), $expire);
+            Cookie::set('doudian', $auth->getToken(), $expire);
         });
         Hook::add('user_register_successed', function ($user) use ($auth) {
             Cookie::set('uid', $user->id);
-            Cookie::set('token', $auth->getToken());
+            Cookie::set('doudian', $auth->getToken());
         });
         Hook::add('user_delete_successed', function ($user) use ($auth) {
             Cookie::delete('uid');
-            Cookie::delete('token');
+            Cookie::delete('doudian');
         });
         Hook::add('user_logout_successed', function ($user) use ($auth) {
             Cookie::delete('uid');
-            Cookie::delete('token');
+            Cookie::delete('doudian');
         });
     }
 
@@ -81,7 +81,7 @@ class User extends Frontend
                 'password'  => 'require|length:6,30',
                 'email'     => 'require|email',
                 'mobile'    => 'regex:/^1\d{10}$/',
-                '__token__' => 'require|token',
+                '__token__' => 'require|doudian',
             ];
 
             $msg = [
@@ -119,12 +119,12 @@ class User extends Frontend
             $validate = new Validate($rule, $msg);
             $result = $validate->check($data);
             if (!$result) {
-                $this->error(__($validate->getError()), null, ['token' => $this->request->token()]);
+                $this->error(__($validate->getError()), null, ['doudian' => $this->request->token()]);
             }
             if ($this->auth->register($username, $password, $email, $mobile)) {
                 $this->success(__('Sign up successful'), $url ? $url : url('user/index'));
             } else {
-                $this->error($this->auth->getError(), null, ['token' => $this->request->token()]);
+                $this->error($this->auth->getError(), null, ['doudian' => $this->request->token()]);
             }
         }
         //判断来源
@@ -155,7 +155,7 @@ class User extends Frontend
             $rule = [
                 'account'   => 'require|length:3,50',
                 'password'  => 'require|length:6,30',
-                '__token__' => 'require|token',
+                '__token__' => 'require|doudian',
             ];
 
             $msg = [
@@ -172,12 +172,12 @@ class User extends Frontend
             $validate = new Validate($rule, $msg);
             $result = $validate->check($data);
             if (!$result) {
-                $this->error(__($validate->getError()), null, ['token' => $this->request->token()]);
+                $this->error(__($validate->getError()), null, ['doudian' => $this->request->token()]);
             }
             if ($this->auth->login($account, $password)) {
                 $this->success(__('Logged in successful'), $url ? $url : url('user/index'));
             } else {
-                $this->error($this->auth->getError(), null, ['token' => $this->request->token()]);
+                $this->error($this->auth->getError(), null, ['doudian' => $this->request->token()]);
             }
         }
         //判断来源
@@ -230,7 +230,7 @@ class User extends Frontend
                 'oldpassword'   => 'require|regex:\S{6,30}',
                 'newpassword'   => 'require|regex:\S{6,30}',
                 'renewpassword' => 'require|regex:\S{6,30}|confirm:newpassword',
-                '__token__'     => 'token',
+                '__token__'     => 'doudian',
             ];
 
             $msg = [
@@ -250,14 +250,14 @@ class User extends Frontend
             $validate = new Validate($rule, $msg, $field);
             $result = $validate->check($data);
             if (!$result) {
-                $this->error(__($validate->getError()), null, ['token' => $this->request->token()]);
+                $this->error(__($validate->getError()), null, ['doudian' => $this->request->token()]);
             }
 
             $ret = $this->auth->changepwd($newpassword, $oldpassword);
             if ($ret) {
                 $this->success(__('Reset password successful'), url('user/login'));
             } else {
-                $this->error($this->auth->getError(), null, ['token' => $this->request->token()]);
+                $this->error($this->auth->getError(), null, ['doudian' => $this->request->token()]);
             }
         }
         $this->view->assign('title', __('Change password'));

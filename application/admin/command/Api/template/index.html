@@ -472,7 +472,7 @@
             $(document).ready(function () {
 
                 if (storage) {
-                    storage.getItem('token') && $('#token').val(storage.getItem('token'));
+                    storage.getItem('token') && $('#doudian').val(storage.getItem('token'));
                     storage.getItem('apiUrl') && $('#apiUrl').val(storage.getItem('apiUrl'));
                 }
 
@@ -522,7 +522,7 @@
 
                 $(document).on('click', '#save_data', function (e) {
                     if (storage) {
-                        storage.setItem('token', $('#token').val());
+                        storage.setItem('token', $('#doudian').val());
                         storage.setItem('apiUrl', $('#apiUrl').val());
                     } else {
                         alert('Your browser does not support local storage');
@@ -586,7 +586,7 @@
 
                     var headers = {};
 
-                    var token = $('#token').val();
+                    var token = $('#doudian').val();
                     if (token.length > 0) {
                         headers['token'] = token;
                     }

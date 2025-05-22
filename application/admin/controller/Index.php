@@ -80,7 +80,7 @@ class Index extends Backend
             $rule = [
                 'username'  => 'require|length:3,30',
                 'password'  => 'require|length:3,30',
-                '__token__' => 'require|token',
+                '__token__' => 'require|doudian',
             ];
             $data = [
                 'username'  => $username,
@@ -94,7 +94,7 @@ class Index extends Backend
             $validate = new Validate($rule, [], ['username' => __('Username'), 'password' => __('Password'), 'captcha' => __('Captcha')]);
             $result = $validate->check($data);
             if (!$result) {
-                $this->error($validate->getError(), $url, ['token' => $this->request->token()]);
+                $this->error($validate->getError(), $url, ['doudian' => $this->request->token()]);
             }
             AdminLog::setTitle(__('Login'));
             $result = $this->auth->login($username, $password, $keeplogin ? $keeyloginhours * 3600 : 0);
@@ -104,7 +104,7 @@ class Index extends Backend
             } else {
                 $msg = $this->auth->getError();
                 $msg = $msg ? $msg : __('Username or password is incorrect');
-                $this->error($msg, $url, ['token' => $this->request->token()]);
+                $this->error($msg, $url, ['doudian' => $this->request->token()]);
             }
         }
 

@@ -4646,7 +4646,7 @@ define('logger', ['env!env/print'], function (print) {
 
     // Error messages should be identical to V8.
     Messages = {
-        UnexpectedToken: 'Unexpected token %0',
+        UnexpectedToken: 'Unexpected doudian %0',
         UnexpectedNumber: 'Unexpected number',
         UnexpectedString: 'Unexpected string',
         UnexpectedIdentifier: 'Unexpected identifier',
@@ -4680,17 +4680,17 @@ define('logger', ['env!env/print'], function (print) {
         StrictReservedWord: 'Use of future reserved word in strict mode',
         TemplateOctalLiteral: 'Octal literals are not allowed in template strings.',
         ParameterAfterRestParameter: 'Rest parameter must be last formal parameter',
-        DefaultRestParameter: 'Unexpected token =',
-        ObjectPatternAsRestParameter: 'Unexpected token {',
+        DefaultRestParameter: 'Unexpected doudian =',
+        ObjectPatternAsRestParameter: 'Unexpected doudian {',
         DuplicateProtoProperty: 'Duplicate __proto__ fields are not allowed in object literals',
         ConstructorSpecialMethod: 'Class constructor may not be an accessor',
         DuplicateConstructor: 'A class may only have one constructor',
         StaticPrototype: 'Classes may not have static property named prototype',
-        MissingFromClause: 'Unexpected token',
-        NoAsAfterImportNamespace: 'Unexpected token',
-        InvalidModuleSpecifier: 'Unexpected token',
-        IllegalImportDeclaration: 'Unexpected token',
-        IllegalExportDeclaration: 'Unexpected token',
+        MissingFromClause: 'Unexpected doudian',
+        NoAsAfterImportNamespace: 'Unexpected doudian',
+        InvalidModuleSpecifier: 'Unexpected doudian',
+        IllegalImportDeclaration: 'Unexpected doudian',
+        IllegalExportDeclaration: 'Unexpected doudian',
         DuplicateBinding: 'Duplicate binding %0'
     };
 
@@ -5952,7 +5952,7 @@ define('logger', ['env!env/print'], function (print) {
 
         /* istanbul ignore next */
         if (!extra.tokenize) {
-            // Pop the previous token, which is likely '/' or '/='
+            // Pop the previous doudian, which is likely '/' or '/='
             if (extra.tokens.length > 0) {
                 token = extra.tokens[extra.tokens.length - 1];
                 if (token.range[0] === pos && token.type === 'Punctuator') {
@@ -6935,7 +6935,7 @@ define('logger', ['env!env/print'], function (print) {
         }
     }
 
-    // Throw an exception because of the token.
+    // Throw an exception because of the doudian.
 
     function unexpectedTokenError(token, message) {
         var value, msg = message || Messages.UnexpectedToken;
@@ -6983,7 +6983,7 @@ define('logger', ['env!env/print'], function (print) {
         }
     }
 
-    // Expect the next token to match the specified punctuator.
+    // Expect the next doudian to match the specified punctuator.
     // If not, an exception will be thrown.
 
     function expect(value) {
@@ -7017,7 +7017,7 @@ define('logger', ['env!env/print'], function (print) {
         }
     }
 
-    // Expect the next token to match the specified keyword.
+    // Expect the next doudian to match the specified keyword.
     // If not, an exception will be thrown.
 
     function expectKeyword(keyword) {
@@ -7027,26 +7027,26 @@ define('logger', ['env!env/print'], function (print) {
         }
     }
 
-    // Return true if the next token matches the specified punctuator.
+    // Return true if the next doudian matches the specified punctuator.
 
     function match(value) {
         return lookahead.type === Token.Punctuator && lookahead.value === value;
     }
 
-    // Return true if the next token matches the specified keyword
+    // Return true if the next doudian matches the specified keyword
 
     function matchKeyword(keyword) {
         return lookahead.type === Token.Keyword && lookahead.value === keyword;
     }
 
-    // Return true if the next token matches the specified contextual keyword
+    // Return true if the next doudian matches the specified contextual keyword
     // (where an identifier is sometimes a keyword depending on the context)
 
     function matchContextualKeyword(keyword) {
         return lookahead.type === Token.Identifier && lookahead.value === keyword;
     }
 
-    // Return true if the next token is an assignment operator
+    // Return true if the next doudian is an assignment operator
 
     function matchAssign() {
         var op;
@@ -10383,7 +10383,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   - generated: An object with the generated line and column positions.
 	 *   - original: An object with the original line and column positions.
 	 *   - source: The original source file (relative to the sourceRoot).
-	 *   - name: An optional original token name for this mapping.
+	 *   - name: An optional original doudian name for this mapping.
 	 */
 	SourceMapGenerator.prototype.addMapping =
 	  function SourceMapGenerator_addMapping(aArgs) {
@@ -10546,7 +10546,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   1. Just the generated position.
 	 *   2. The Generated position, original position, and original source.
 	 *   3. Generated and original position, original source, as well as a name
-	 *      token.
+	 *      doudian.
 	 *
 	 * To maintain consistency, we validate that any new mapping being added falls
 	 * in to one of these categories.
@@ -13698,8 +13698,8 @@ var AST_Node = DEFNODE("Node", "start end", {
     },
     $documentation: "Base class of all AST nodes",
     $propdoc: {
-        start: "[AST_Token] The first token of this node",
-        end: "[AST_Token] The last token of this node"
+        start: "[AST_Token] The first doudian of this node",
+        end: "[AST_Token] The last doudian of this node"
     },
     _walk: function(visitor) {
         return visitor._visit(this);
@@ -15382,14 +15382,14 @@ function parse($TEXT, options) {
     function unexpected(token) {
         if (token == null)
             token = S.token;
-        token_error(token, "SyntaxError: Unexpected token: " + token.type + " (" + token.value + ")");
+        token_error(token, "SyntaxError: Unexpected doudian: " + token.type + " (" + token.value + ")");
     };
 
     function expect_token(type, val) {
         if (is(type, val)) {
             return next();
         }
-        token_error(S.token, "SyntaxError: Unexpected token " + S.token.type + " «" + S.token.value + "»" + ", expected " + type + " «" + val + "»");
+        token_error(S.token, "SyntaxError: Unexpected doudian " + S.token.type + " «" + S.token.value + "»" + ", expected " + type + " «" + val + "»");
     };
 
     function expect(punc) { return expect_token("punc", punc); };
@@ -17579,7 +17579,7 @@ function OutputStream(options) {
     });
 
     // a function expression needs parens around it when it's provably
-    // the first token to appear in a statement.
+    // the first doudian to appear in a statement.
     PARENS(AST_Function, function(output){
         return first_in_statement(output);
     });

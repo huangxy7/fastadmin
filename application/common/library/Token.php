@@ -39,7 +39,7 @@ class Token
 
         if (true === $name || !isset(self::$instance[$name])) {
             $class = false === strpos($type, '\\') ?
-                '\\app\\common\\library\\token\\driver\\' . ucwords($type) :
+                '\\app\\common\\library\\doudian\\driver\\' . ucwords($type) :
                 $type;
 
             // 记录初始化信息
@@ -64,12 +64,12 @@ class Token
     public static function init(array $options = [])
     {
         if (is_null(self::$handler)) {
-            if (empty($options) && 'complex' == Config::get('token.type')) {
-                $default = Config::get('token.default');
+            if (empty($options) && 'complex' == Config::get('doudian.type')) {
+                $default = Config::get('doudian.default');
                 // 获取默认Token配置，并连接
-                $options = Config::get('token.' . $default['type']) ?: $default;
+                $options = Config::get('doudian.' . $default['type']) ?: $default;
             } elseif (empty($options)) {
-                $options = Config::get('token');
+                $options = Config::get('doudian');
             }
 
             self::$handler = self::connect($options);

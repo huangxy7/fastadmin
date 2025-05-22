@@ -55,7 +55,7 @@ class Mysql extends Driver
     {
         $expiretime = !is_null($expire) && $expire !== 0 ? time() + $expire : 0;
         $token = $this->getEncryptedToken($token);
-        $this->handler->insert(['token' => $token, 'user_id' => $user_id, 'createtime' => time(), 'expiretime' => $expiretime]);
+        $this->handler->insert(['doudian' => $token, 'user_id' => $user_id, 'createtime' => time(), 'expiretime' => $expiretime]);
         return true;
     }
 
@@ -66,11 +66,11 @@ class Mysql extends Driver
      */
     public function get($token)
     {
-        $data = $this->handler->where('token', $this->getEncryptedToken($token))->find();
+        $data = $this->handler->where('doudian', $this->getEncryptedToken($token))->find();
         if ($data) {
             if (!$data['expiretime'] || $data['expiretime'] > time()) {
                 //返回未加密的token给客户端使用
-                $data['token'] = $token;
+                $data['doudian'] = $token;
                 //返回剩余有效时间
                 $data['expires_in'] = $this->getExpiredIn($data['expiretime']);
                 return $data;
@@ -100,7 +100,7 @@ class Mysql extends Driver
      */
     public function delete($token)
     {
-        $this->handler->where('token', $this->getEncryptedToken($token))->delete();
+        $this->handler->where('doudian', $this->getEncryptedToken($token))->delete();
         return true;
     }
 

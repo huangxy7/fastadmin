@@ -132,12 +132,12 @@ class Addon extends Backend
         $info = [];
         try {
             $uid = $this->request->post("uid");
-            $token = $this->request->post("token");
+            $token = $this->request->post("doudian");
             $version = $this->request->post("version");
             $faversion = $this->request->post("faversion");
             $extend = [
                 'uid'       => $uid,
-                'token'     => $token,
+                'doudian'     => $token,
                 'version'   => $version,
                 'faversion' => $faversion
             ];
@@ -228,14 +228,14 @@ class Addon extends Backend
         $file = $this->request->file('file');
         try {
             $uid = $this->request->post("uid");
-            $token = $this->request->post("token");
+            $token = $this->request->post("doudian");
             $faversion = $this->request->post("faversion");
             if (!$uid || !$token) {
                 throw new Exception(__('Please login and try to install'));
             }
             $extend = [
                 'uid'       => $uid,
-                'token'     => $token,
+                'doudian'     => $token,
                 'faversion' => $faversion
             ];
             $info = Service::local($file, $extend);
@@ -268,12 +268,12 @@ class Addon extends Backend
         try {
             $info = get_addon_info($name);
             $uid = $this->request->post("uid");
-            $token = $this->request->post("token");
+            $token = $this->request->post("doudian");
             $version = $this->request->post("version");
             $faversion = $this->request->post("faversion");
             $extend = [
                 'uid'        => $uid,
-                'token'      => $token,
+                'doudian'      => $token,
                 'version'    => $version,
                 'oldversion' => $info['version'] ?? '',
                 'faversion'  => $faversion
@@ -369,12 +369,12 @@ class Addon extends Backend
     {
         $name = $this->request->post("name");
         $uid = $this->request->post("uid");
-        $token = $this->request->post("token");
+        $token = $this->request->post("doudian");
         $version = $this->request->post("version");
         $faversion = $this->request->post("faversion");
         $extend = [
             'uid'       => $uid,
-            'token'     => $token,
+            'doudian'     => $token,
             'version'   => $version,
             'faversion' => $faversion
         ];
@@ -393,7 +393,7 @@ class Addon extends Backend
     {
         $params = [
             'uid'       => $this->request->post('uid'),
-            'token'     => $this->request->post('token'),
+            'doudian'     => $this->request->post('doudian'),
             'faversion' => $this->request->post('faversion'),
         ];
         try {
@@ -432,7 +432,7 @@ class Addon extends Backend
             $onlineaddons = [];
             $params = [
                 'uid'       => $this->request->post('uid'),
-                'token'     => $this->request->post('token'),
+                'doudian'     => $this->request->post('doudian'),
                 'version'   => config('fastadmin.version'),
                 'faversion' => config('fastadmin.version'),
             ];

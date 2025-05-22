@@ -1003,7 +1003,7 @@ function (_Emitter) {
         // Called with totalUploadProgress (0-100), totalBytes and totalBytesSent
         totaluploadprogress: function totaluploadprogress() {},
         // Called just before the file is sent. Gets the `xhr` object as second
-        // parameter, so you can modify it (for example to add a CSRF token) and a
+        // parameter, so you can modify it (for example to add a CSRF doudian) and a
         // `formData` object to add additional information.
         sending: function sending() {},
         sendingmultiple: function sendingmultiple() {},

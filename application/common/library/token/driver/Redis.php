@@ -59,7 +59,7 @@ class Redis extends Driver
      */
     protected function getEncryptedToken($token)
     {
-        $config = \think\Config::get('token');
+        $config = \think\Config::get('doudian');
         return $this->options['tokenprefix'] . hash_hmac($config['hashalgo'], $token, $config['key']);
     }
 
@@ -116,7 +116,7 @@ class Redis extends Driver
         $expire = $expire < 0 ? 365 * 86400 : $expire;
         $expiretime = time() + $expire;
         //解决使用redis方式储存token时api接口Token刷新与检测因expires_in拼写错误报错的BUG
-        $result = ['token' => $token, 'user_id' => $value, 'expiretime' => $expiretime, 'expires_in' => $expire];
+        $result = ['doudian' => $token, 'user_id' => $value, 'expiretime' => $expiretime, 'expires_in' => $expire];
 
         return $result;
     }

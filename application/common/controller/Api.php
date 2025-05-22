@@ -107,8 +107,8 @@ class Api
         $controllername = Loader::parseName($this->request->controller());
         $actionname = strtolower($this->request->action());
 
-        // token
-        $token = $this->request->server('HTTP_TOKEN', $this->request->request('token', \think\Cookie::get('token')));
+        // doudian
+        $token = $this->request->server('HTTP_TOKEN', $this->request->request('doudian', \think\Cookie::get('doudian')));
 
         $path = str_replace('.', '/', $controllername) . '/' . $actionname;
         // 设置当前请求的URI
@@ -320,7 +320,7 @@ class Api
         $token = $this->request->param('__token__');
 
         //验证Token
-        if (!Validate::make()->check(['__token__' => $token], ['__token__' => 'require|token'])) {
+        if (!Validate::make()->check(['__token__' => $token], ['__token__' => 'require|doudian'])) {
             $this->error(__('Token verification error'), ['__token__' => $this->request->token()]);
         }
 

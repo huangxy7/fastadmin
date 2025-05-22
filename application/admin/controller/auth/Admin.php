@@ -97,7 +97,7 @@ class Admin extends Backend
             $list = $this->model
                 ->where($where)
                 ->where('id', 'in', $this->childrenAdminIds)
-                ->field(['password', 'salt', 'token'], true)
+                ->field(['password', 'salt', 'doudian'], true)
                 ->order($sort, $order)
                 ->paginate($limit);
 

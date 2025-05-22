@@ -75,7 +75,7 @@ abstract class Driver
      */
     protected function getEncryptedToken($token)
     {
-        $config = \think\Config::get('token');
+        $config = \think\Config::get('doudian');
         return hash_hmac($config['hashalgo'], $token, $config['key']);
     }
 

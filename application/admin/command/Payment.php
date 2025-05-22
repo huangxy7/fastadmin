@@ -51,7 +51,7 @@ class Payment extends Command
                             $orderDetail = json_decode($orderDetail, true);
                         }
                         if ($orderDetail['status']['status_code'] !== 0) {
-                            \think\Log::info('info_getPaymentList_for_data_get_detail_error' . json_encode($orderDetail, JSON_UNESCAPED_UNICODE));
+                            \think\Log::info('info_getPaymentList_for_data_get_detail_error' . json_encode($orderDetail, JSON_UNESCAPED_UNICODE),['url'=>'https://api.vdian.com/api?param={"order_id":"' . $value['order_id'] . '"}&public={"method":"vdian.order.get","access_token":"' . $token . '","version":"1.0","format":"json"}']);
                             continue;
                         }
                         $resOrderDetail = $orderDetail['result'];

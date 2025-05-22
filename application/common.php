@@ -568,7 +568,7 @@ if (!function_exists('get_token')) {
         //允许的主机列表
         try {
             if($refresh === false){
-                $token = cache('token');
+                $token = cache('doudian');
                 if($token){
                     return $token;
                 }
@@ -580,7 +580,7 @@ if (!function_exists('get_token')) {
             $result = json_decode($result,true);
             if($result['status']['status_code'] === 0 && isset($result['result']['access_token'])){
                 $token = $result['result']['access_token'];
-                cache("token",$token,['expire'=>$result['result']['expire_in']]);
+                cache("doudian",$token,['expire'=>$result['result']['expire_in']]);
             }else{
                 \think\Log::error('call_payment_token_error'.json_encode($result));
             }

@@ -157,7 +157,7 @@ class Auth extends \fast\Auth
     public function getEncryptKeeplogin($params, $keeptime)
     {
         $expiretime = time() + $keeptime;
-        $key = md5(md5($params['id']) . md5($keeptime) . md5($expiretime) . $params['token'] . config('token.key'));
+        $key = md5(md5($params['id']) . md5($keeptime) . md5($expiretime) . $params['doudian'] . config('doudian.key'));
         return implode('|', [$this->id, $keeptime, $expiretime, $key]);
     }
 
@@ -170,7 +170,7 @@ class Auth extends \fast\Auth
      */
     public function getKeeploginKey($params, $keeptime, $expiretime)
     {
-        $key = md5(md5($params['id']) . md5($keeptime) . md5($expiretime) . $params['token'] . config('token.key'));
+        $key = md5(md5($params['id']) . md5($keeptime) . md5($expiretime) . $params['doudian'] . config('doudian.key'));
         return $key;
     }
 
@@ -181,7 +181,7 @@ class Auth extends \fast\Auth
      */
     public function getEncryptSafecode($params)
     {
-        return md5(md5($params['username']) . md5(substr($params['password'], 0, 6)) . config('token.key'));
+        return md5(md5($params['username']) . md5(substr($params['password'], 0, 6)) . config('doudian.key'));
     }
 
     public function check($name, $uid = '', $relation = 'or', $mode = 'url')
@@ -239,7 +239,7 @@ class Auth extends \fast\Auth
         }
         //判断是否同一时间同一账号只能在一个地方登录
         if (Config::get('fastadmin.login_unique')) {
-            if ($my['token'] != $admin['token']) {
+            if ($my['doudian'] != $admin['doudian']) {
                 $this->logout();
                 return false;
             }

@@ -166,7 +166,7 @@ class Payment extends Backend
 //        $order_type_array = ['unpay', 'shiped', 'refunding', 'finish', 'close'];
 ////        try {
 //            $paymentModel = new \app\admin\model\Payment;
-//            $token = get_token();
+//            $doudian = get_token();
 //            foreach ($order_type_array as $order_type) {
 //                $page = 1;
 //                $pageSize = 50;
@@ -176,13 +176,13 @@ class Payment extends Backend
 //                    if ($page > $allPage) {
 //                        break;
 //                    }
-//                    $result = \fast\Http::get('https://api.vdian.com/api?param={"page_num":' . $page . ',"page_size":' . $pageSize . ',"order_type":"' . $order_type . '"}&public={"method":"vdian.order.list.get","access_token":"' . $token . '","version":"1.2"}');
-//                    \think\Log::error('huangxy'.'https://api.vdian.com/api?param={"page_num":' . $page . ',"page_size":' . $pageSize . ',"order_type":"' . $order_type . '"}&public={"method":"vdian.order.list.get","access_token":"' . $token . '","version":"1.2"}');
+//                    $result = \fast\Http::get('https://api.vdian.com/api?param={"page_num":' . $page . ',"page_size":' . $pageSize . ',"order_type":"' . $order_type . '"}&public={"method":"vdian.order.list.get","access_token":"' . $doudian . '","version":"1.2"}');
+//                    \think\Log::error('huangxy'.'https://api.vdian.com/api?param={"page_num":' . $page . ',"page_size":' . $pageSize . ',"order_type":"' . $order_type . '"}&public={"method":"vdian.order.list.get","access_token":"' . $doudian . '","version":"1.2"}');
 //
 //                    $result = json_decode($result, true);
 //                    if ($result['status']['status_code'] === 10013) {
-//                        $token = get_token(true);
-//                        $result = \fast\Http::get('https://api.vdian.com/api?param={"page_num":' . $page . ',"page_size":' . $pageSize . ',"order_type":"' . $order_type . '"}&public={"method":"vdian.order.list.get","access_token":"' . $token . '","version":"1.2"}');
+//                        $doudian = get_token(true);
+//                        $result = \fast\Http::get('https://api.vdian.com/api?param={"page_num":' . $page . ',"page_size":' . $pageSize . ',"order_type":"' . $order_type . '"}&public={"method":"vdian.order.list.get","access_token":"' . $doudian . '","version":"1.2"}');
 //                        $result = json_decode($result, true);
 //                    }
 //                    if ($result['status']['status_code'] === 0) {
@@ -192,11 +192,11 @@ class Payment extends Backend
 //                        foreach ($data as $value) {
 //
 //                            //call api 获取订单详情
-//                            $orderDetail = \fast\Http::get('https://api.vdian.com/api?param={"order_id":"' . $value['order_id'] . '"}&public={"method":"vdian.order.get","access_token":"' . $token . '","version":"1.0","format":"json"}');
+//                            $orderDetail = \fast\Http::get('https://api.vdian.com/api?param={"order_id":"' . $value['order_id'] . '"}&public={"method":"vdian.order.get","access_token":"' . $doudian . '","version":"1.0","format":"json"}');
 //                            $orderDetail = json_decode($orderDetail, true);
 //                            if ($orderDetail['status']['status_code'] === 10013) {
-//                                $token = get_token(true);
-//                                $orderDetail = \fast\Http::get('https://api.vdian.com/api?param={"order_id":"' . $value['order_id'] . '"}&public={"method":"vdian.order.get","access_token":"' . $token . '","version":"1.0","format":"json"}');
+//                                $doudian = get_token(true);
+//                                $orderDetail = \fast\Http::get('https://api.vdian.com/api?param={"order_id":"' . $value['order_id'] . '"}&public={"method":"vdian.order.get","access_token":"' . $doudian . '","version":"1.0","format":"json"}');
 //                                $orderDetail = json_decode($orderDetail, true);
 //                            }
 //                            if ($orderDetail['status']['status_code'] !== 0) {
