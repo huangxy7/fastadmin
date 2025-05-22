@@ -200,7 +200,7 @@ class Api
     {
         $result = [
             'code' => $code,
-            'msg'  => $msg,
+            'message'  => $msg,
             'time' => Request::instance()->server('REQUEST_TIME'),
             'data' => $data,
         ];

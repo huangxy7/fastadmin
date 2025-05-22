@@ -16,109 +16,109 @@ return [
     // | 应用设置
     // +----------------------------------------------------------------------
     // 应用命名空间
-    'app_namespace'          => 'app',
+    'app_namespace'           => 'app',
     // 应用调试模式
-    'app_debug'              => Env::get('app.debug', true),
+    'app_debug'               => Env::get('app.debug', false),
     // 应用Trace
-    'app_trace'              => Env::get('app.trace', true),
+    'app_trace'               => Env::get('app.trace', false),
     // 应用模式状态
-    'app_status'             => '',
+    'app_status'              => '',
     // 是否支持多模块
-    'app_multi_module'       => true,
+    'app_multi_module'        => true,
     // 入口自动绑定模块
-    'auto_bind_module'       => false,
+    'auto_bind_module'        => false,
     // 注册的根命名空间
-    'root_namespace'         => [],
+    'root_namespace'          => [],
     // 扩展函数文件
-    'extra_file_list'        => [THINK_PATH . 'helper' . EXT],
+    'extra_file_list'         => [THINK_PATH . 'helper' . EXT],
     // 默认输出类型
-    'default_return_type'    => 'html',
+    'default_return_type'     => 'html',
     // 默认AJAX 数据返回格式,可选json xml ...
-    'default_ajax_return'    => 'json',
+    'default_ajax_return'     => 'json',
     // 默认JSONP格式返回的处理方法
-    'default_jsonp_handler'  => 'jsonpReturn',
+    'default_jsonp_handler'   => 'jsonpReturn',
     // 默认JSONP处理方法
-    'var_jsonp_handler'      => 'callback',
+    'var_jsonp_handler'       => 'callback',
     // 默认时区
-    'default_timezone'       => 'PRC',
+    'default_timezone'        => 'PRC',
     // 是否开启多语言
-    'lang_switch_on'         => false,
+    'lang_switch_on'          => false,
     // 默认全局过滤方法 用逗号分隔多个
-    'default_filter'         => '',
+    'default_filter'          => '',
     // 默认语言
-    'default_lang'           => 'zh-cn',
+    'default_lang'            => 'zh-cn',
     // 允许的语言列表
-    'allow_lang_list'        => ['zh-cn', 'en'],
+    'allow_lang_list'         => ['zh-cn', 'en'],
     // 应用类库后缀
-    'class_suffix'           => false,
+    'class_suffix'            => false,
     // 控制器类后缀
-    'controller_suffix'      => false,
+    'controller_suffix'       => false,
     // 获取IP的变量
-    'http_agent_ip'          => 'REMOTE_ADDR',
+    'http_agent_ip'           => 'REMOTE_ADDR',
     // +----------------------------------------------------------------------
     // | 模块设置
     // +----------------------------------------------------------------------
     // 默认模块名
-    'default_module'         => 'index',
+    'default_module'          => 'index',
     // 禁止访问模块
-    'deny_module_list'       => ['common', 'admin'],
+    'deny_module_list'        => ['common', 'admin'],
     // 默认控制器名
-    'default_controller'     => 'Index',
+    'default_controller'      => 'Index',
     // 默认操作名
-    'default_action'         => 'index',
+    'default_action'          => 'index',
     // 默认验证器
-    'default_validate'       => '',
+    'default_validate'        => '',
     // 默认的空控制器名
-    'empty_controller'       => 'Error',
+    'empty_controller'        => 'Error',
     // 操作方法后缀
-    'action_suffix'          => '',
+    'action_suffix'           => '',
     // 自动搜索控制器
-    'controller_auto_search' => true,
+    'controller_auto_search'  => true,
     // +----------------------------------------------------------------------
     // | URL设置
     // +----------------------------------------------------------------------
     // PATHINFO变量名 用于兼容模式
-    'var_pathinfo'           => 's',
+    'var_pathinfo'            => 's',
     // 兼容PATH_INFO获取
-    'pathinfo_fetch'         => ['ORIG_PATH_INFO', 'REDIRECT_PATH_INFO', 'REDIRECT_URL'],
+    'pathinfo_fetch'          => ['ORIG_PATH_INFO', 'REDIRECT_PATH_INFO', 'REDIRECT_URL'],
     // pathinfo分隔符
-    'pathinfo_depr'          => '/',
+    'pathinfo_depr'           => '/',
     // URL伪静态后缀
-    'url_html_suffix'        => 'html',
+    'url_html_suffix'         => 'html',
     // URL普通方式参数 用于自动生成
-    'url_common_param'       => false,
+    'url_common_param'        => false,
     // URL参数方式 0 按名称成对解析 1 按顺序解析
-    'url_param_type'         => 0,
+    'url_param_type'          => 0,
     // 是否开启路由
-    'url_route_on'           => true,
+    'url_route_on'            => true,
     // 路由使用完整匹配
-    'route_complete_match'   => false,
+    'route_complete_match'    => false,
     // 路由配置文件（支持配置多个）
-    'route_config_file'      => ['route'],
+    'route_config_file'       => ['route'],
     // 是否强制使用路由
-    'url_route_must'         => false,
+    'url_route_must'          => false,
     // 域名部署
-    'url_domain_deploy'      => false,
+    'url_domain_deploy'       => false,
     // 域名根，如thinkphp.cn
-    'url_domain_root'        => '',
+    'url_domain_root'         => '',
     // 是否自动转换URL中的控制器和操作名
-    'url_convert'            => true,
+    'url_convert'             => true,
     // 默认的访问控制器层
-    'url_controller_layer'   => 'controller',
+    'url_controller_layer'    => 'controller',
     // 表单请求类型伪装变量
-    'var_method'             => '_method',
+    'var_method'              => '_method',
     // 表单ajax伪装变量
-    'var_ajax'               => '_ajax',
+    'var_ajax'                => '_ajax',
     // 表单pjax伪装变量
-    'var_pjax'               => '_pjax',
+    'var_pjax'                => '_pjax',
     // 是否开启请求缓存 true自动缓存 支持设置请求缓存规则
-    'request_cache'          => false,
+    'request_cache'           => false,
     // 请求缓存有效期
-    'request_cache_expire'   => null,
+    'request_cache_expire'    => null,
     // +----------------------------------------------------------------------
     // | 模板设置
     // +----------------------------------------------------------------------
-    'template'               => [
+    'template'                => [
         // 模板引擎类型 支持 php think 支持扩展
         'type'         => 'Think',
         // 模板路径
@@ -138,34 +138,34 @@ return [
         'tpl_cache'    => true,
     ],
     // 视图输出字符串内容替换,留空则会自动进行计算
-    'view_replace_str'       => [
+    'view_replace_str'        => [
         '__PUBLIC__' => '',
         '__ROOT__'   => '',
         '__CDN__'    => '',
     ],
     // 默认跳转页面对应的模板文件
-    'dispatch_success_tmpl'  => APP_PATH . 'common' . DS . 'view' . DS . 'tpl' . DS . 'dispatch_jump.tpl',
-    'dispatch_error_tmpl'    => APP_PATH . 'common' . DS . 'view' . DS . 'tpl' . DS . 'dispatch_jump.tpl',
+    'dispatch_success_tmpl'   => APP_PATH . 'common' . DS . 'view' . DS . 'tpl' . DS . 'dispatch_jump.tpl',
+    'dispatch_error_tmpl'     => APP_PATH . 'common' . DS . 'view' . DS . 'tpl' . DS . 'dispatch_jump.tpl',
     // +----------------------------------------------------------------------
     // | 异常及错误设置
     // +----------------------------------------------------------------------
     // 异常页面的模板文件
-    'exception_tmpl'         => APP_PATH . 'common' . DS . 'view' . DS . 'tpl' . DS . 'think_exception.tpl',
+    'exception_tmpl'          => APP_PATH . 'common' . DS . 'view' . DS . 'tpl' . DS . 'think_exception.tpl',
     // 自定义错误码模板
-    'http_exception_template'    =>  [
+    'http_exception_template' => [
         // 定义404错误的模板渲染
         // 404 =>  APP_PATH . 'common/view/tpl/404.tpl',
     ],
     // 错误显示信息,非调试模式有效
-    'error_message'          => '你所浏览的页面暂时无法访问',
+    'error_message'           => '你所浏览的页面暂时无法访问',
     // 显示错误信息
-    'show_error_msg'         => false,
+    'show_error_msg'          => false,
     // 异常处理handle类 留空使用 \think\exception\Handle
-    'exception_handle'       => '',
+    'exception_handle'        => '',
     // +----------------------------------------------------------------------
     // | 日志设置
     // +----------------------------------------------------------------------
-    'log'                    => [
+    'log'                     => [
         // 日志记录方式，内置 file socket 支持扩展
         'type'  => 'File',
         // 日志保存目录
@@ -176,14 +176,14 @@ return [
     // +----------------------------------------------------------------------
     // | Trace设置 开启 app_trace 后 有效
     // +----------------------------------------------------------------------
-    'trace'                  => [
+    'trace'                   => [
         // 内置Html Console 支持扩展
         'type' => 'Html',
     ],
     // +----------------------------------------------------------------------
     // | 缓存设置
     // +----------------------------------------------------------------------
-    'cache'                  => [
+    'cache'                   => [
         // 驱动方式
         'type'   => 'File',
         // 缓存保存目录
@@ -196,7 +196,7 @@ return [
     // +----------------------------------------------------------------------
     // | 会话设置
     // +----------------------------------------------------------------------
-    'session'                => [
+    'session'                 => [
         'id'             => '',
         // SESSION_ID的提交变量,解决flash上传跨域
         'var_session_id' => '',
@@ -211,7 +211,7 @@ return [
     // +----------------------------------------------------------------------
     // | Cookie设置
     // +----------------------------------------------------------------------
-    'cookie'                 => [
+    'cookie'                  => [
         // cookie 名称前缀
         'prefix'    => '',
         // cookie 保存时间
@@ -228,13 +228,13 @@ return [
         'setcookie' => true,
     ],
     //分页配置
-    'paginate'               => [
+    'paginate'                => [
         'type'      => 'bootstrap',
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
     //验证码配置
-    'captcha'                => [
+    'captcha'                 => [
         // 验证码字符集合
         'codeSet'  => '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY',
         // 验证码字体大小(px)
@@ -255,7 +255,7 @@ return [
     // +----------------------------------------------------------------------
     // | Token设置
     // +----------------------------------------------------------------------
-    'token'                  => [
+    'token'                 => [
         // 驱动方式
         'type'     => 'Mysql',
         // 缓存前缀
@@ -266,7 +266,7 @@ return [
         'expire'   => 0,
     ],
     //FastAdmin配置
-    'fastadmin'              => [
+    'fastadmin'               => [
         //是否开启前台会员中心
         'usercenter'            => true,
         //会员注册验证码类型email/mobile/wechat/text/false
@@ -306,8 +306,13 @@ return [
         //API接口地址
         'api_url'               => 'https://api.fastadmin.net',
     ],
-    'payment' => [
+    'payment'                 => [
         'appkey' => Env::get('payment.appkey', '3703031701'),
         'secret' => Env::get('payment.secret', '7964199748ee934c9dbc154532a9e93b'),
+    ],
+    'doudian'                 => [
+        'appkey'  => Env::get('doudian.appkey', '7512727046288590355'),
+        'secret'  => Env::get('doudian.secret', 'daa1a5c2-5040-4e39-b07e-6b1680026d46'),
+        'shop_id' => Env::get('doudian.shop_id', '155321394'),
     ]
 ];

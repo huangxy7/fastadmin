@@ -42,5 +42,7 @@ return array (
     'custom' => 'Custom',
   ),
   'get_data' => '1',
-  'get_value' => '240',
+  'get_value' => '1000',
+  'get_data_doudian' => '1',
+  'get_value_doudian' => '1000',
 );

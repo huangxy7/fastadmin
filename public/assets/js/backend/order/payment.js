@@ -1,4 +1,4 @@
-define(['jquery', 'bootstrap', 'backend', 'table', 'form','clipboard.min'], function ($, undefined, Backend, Table, Form,ClipboardJS) {
+define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'clipboard.min'], function ($, undefined, Backend, Table, Form, ClipboardJS) {
 
     var Controller = {
         index: function () {
@@ -16,10 +16,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','clipboard.min'], func
             });
             //绑定复制事件
             var clipboard = new ClipboardJS('.btn-copy');
-            clipboard.on('success', function(e) {
+            clipboard.on('success', function (e) {
                 Toastr.success('复制成功');
             });
-            clipboard.on('error', function(e) {
+            clipboard.on('error', function (e) {
                 Toastr.error('复制失败，请刷新后重试');
             });
             var table = $("#table");
@@ -36,16 +36,36 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','clipboard.min'], func
                         {checkbox: true},
                         // {field: 'id', title: __('Id')},
                         {field: 'order_id', title: __('Order_id'), operate: 'LIKE'},//订单id、
-                        {field: 'time', title: __('Time'), operate:'RANGE', addclass:'datetimerange', autocomplete:false},//下单时间、
-                        {field: 'seller_note', title: __('Seller_note'), operate: 'LIKE', table: table, class: 'autocontent', formatter: Table.api.formatter.content},// 卖家备注、
+                        {
+                            field: 'time',
+                            title: __('Time'),
+                            operate: 'RANGE',
+                            addclass: 'datetimerange',
+                            autocomplete: false
+                        },//下单时间、
+                        {
+                            field: 'seller_note',
+                            title: __('Seller_note'),
+                            operate: 'LIKE',
+                            table: table,
+                            class: 'autocontent',
+                            formatter: Table.api.formatter.content
+                        },// 卖家备注、
                         {field: 'total', title: __('Total'), operate: 'LIKE', table: table},// 订单总价、
                         {field: 'device', title: "处理设备", operate: 'LIKE', table: table},// 处理设备、
                         {field: 'accountName', title: "账号名称", operate: 'LIKE', table: table},// 账号名称、
                         {field: 'merchant_code', title: __('Merchant_code'), operate: 'LIKE', table: table},// 商品编号、
-                        {field: 'customInfos_value', title: __('CustomInfos_value'), operate: 'LIKE', table: table, class: 'autocontent', formatter:function (value,row,index){
-                                return '<a href="javascript:;"  data-clipboard-text="'+value+'" class="btn-copy" data-toggle="tooltip" data-original-title="点击复制">'+value+'</a>';
-                            }},             // 充值账号、
-                        {field: 'system_status_name', title: __('System_status'),  operate: 'LIKE', table: table}, // 处理状态
+                        {
+                            field: 'customInfos_value',
+                            title: __('CustomInfos_value'),
+                            operate: 'LIKE',
+                            table: table,
+                            class: 'autocontent',
+                            formatter: function (value, row, index) {
+                                return '<a href="javascript:;"  data-clipboard-text="' + value + '" class="btn-copy" data-toggle="tooltip" data-original-title="点击复制">' + value + '</a>';
+                            }
+                        },             // 充值账号、
+                        {field: 'system_status_name', title: __('System_status'), operate: 'LIKE', table: table}, // 处理状态
                         // {field: 'buyer_note', title: __('Buyer_note'), operate: 'LIKE', table: table, class: 'autocontent', formatter: Table.api.formatter.content},
                         // {field: 'total', title: __('Total'), operate: 'LIKE', table: table, class: 'autocontent', formatter: Table.api.formatter.content},
                         // {field: 'group_status', title: __('Group_status')},
@@ -69,7 +89,13 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','clipboard.min'], func
                         // {field: 'express_fee', title: __('Express_fee'), operate: 'LIKE', table: table, class: 'autocontent', formatter: Table.api.formatter.content},
                         // {field: 'refundStatus', title: __('Refundstatus'),searchList: {"":__('未发起退款'),0:__('未发起退款'),1:__('申请退款或退款'),3:__('拒绝退款'),4:__('退货流程同意退货'),5:__('退货流程拒绝退货'),6:__('退货流程已提交退货物流信息'),7:__('换货发货'),9:__('退款取消'),10:__('退款完成')}, formatter: Table.api.formatter.status},
                         {field: 'create_time', title: __('创建时间'), operate: 'LIKE', table: table},// 订单总价、
-                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                        {
+                            field: 'operate',
+                            title: __('Operate'),
+                            table: table,
+                            events: Table.api.events.operate,
+                            formatter: Table.api.formatter.operate
+                        }
                     ]
                 ]
             });
@@ -109,7 +135,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','clipboard.min'], func
 
                 table.trigger("uncheckbox");
                 table.bootstrapTable('refresh', {pageNumber: 1});
-  
+
                 return false;
             });
             // 启动和暂停按钮
@@ -119,13 +145,15 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','clipboard.min'], func
                 //如果操作全部则ids可以置为空
                 var ids = Table.api.selectedids(table);
                 Table.api.multi("changestatus", ids.join(","), table, this);
-                setTimeout(function (){
+                setTimeout(function () {
                     location.reload()
-                },3000)
+                }, 3000)
 
             });
-                          setInterval(function (){table.bootstrapTable('refresh',{silent: true });}, 3000);
-            
+            setInterval(function () {
+                table.bootstrapTable('refresh', {silent: true});
+            }, 3000);
+
 
         },
         add: function () {

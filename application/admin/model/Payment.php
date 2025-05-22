@@ -18,5 +18,8 @@ class Payment extends Model
     protected $createTime = false;
     protected $updateTime = false;
     protected $deleteTime = false;
-
+    // 定义字段类型
+    const SYSTEM_STATUS_WAIT = 0;//未处理
+    const SYSTEM_STATUS_IN_PRECESS = 1;//处理中
+    const SYSTEM_STATUS_ = 3;//？？
 }

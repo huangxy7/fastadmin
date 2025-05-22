@@ -33,12 +33,21 @@
         "txthinking/mailer": "^2.0"
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "topthink/think-installer": true,
+            "easywechat-composer/easywechat-composer": false
+        }
     },
     "repositories": [
         {
             "type": "git",
             "url": "https://gitee.com/fastadminnet/framework.git"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "extend\\": "extend/doudian/"
+        }
+    }
 }
