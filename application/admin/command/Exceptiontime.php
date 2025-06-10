@@ -16,12 +16,9 @@ class Exceptiontime extends Command
 
     protected function execute(Input $input, Output $output)
     {
-        $data = \app\admin\model\Payment::where('system_status_name','开始处理')->select();
         $time = date('Y-m-d H:i:s',time());
-        foreach ($data as $value){
-            if($value['error_time'] < $time){
-                \app\admin\model\Payment::update(['system_status_name' => "处理异常"],['id'=>$value['id']]);
-            }
-        }
+        \app\admin\model\Payment::where('system_status',1)->where('error_time','<',$time)->data(['system_status_name' => "处理异常",'system_status'=>2])->update();
+        // $data = \app\admin\model\Payment::where('system_status',1)->where('error_time','<',$time)->select();
+        // var_export($data);die;
     }
 }

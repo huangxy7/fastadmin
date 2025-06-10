@@ -81,7 +81,7 @@ class Payment extends Backend
                 $merchant_code[] = $vs['merchant_code'];
             }
             $customInfos_value = [];
-            foreach ($order_json['customInfos'] as $vcustomInfos) {
+            foreach ($order_json['customInfos'] ?? [] as $vcustomInfos) {
                 $customInfos_value[] = $vcustomInfos['value'];
             }
             $list->items()[$k]['customInfos_value'] = implode(",", $customInfos_value);
@@ -105,7 +105,7 @@ class Payment extends Backend
             $row['order_json'] = json_decode($row['order_json'], true);
             $this->view->assign('row', $row);
             $this->view->assign('items', $row['order_json']['items']);
-            $this->view->assign('customInfos', $row['order_json']['customInfos']);
+            $this->view->assign('customInfos', $row['order_json']['customInfos'] ?? []);
 
             return $this->view->fetch();
         }
