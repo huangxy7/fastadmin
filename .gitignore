@@ -1,9 +1,7 @@
 /nbproject/
-/thinkphp/
 /vendor/
 /runtime/*
 /addons/*
-/public/assets/libs/
 /public/assets/addons/*
 /public/uploads/*
 .idea
