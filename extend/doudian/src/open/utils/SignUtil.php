@@ -13,7 +13,7 @@ class SignUtil
     public static function spiSign($appKey, $appSecret, $timestamp, $paramJson, $signMethod) {
         $paramPattern = 'app_key' . $appKey . 'param_json' . $paramJson . 'timestamp' . $timestamp;
         $signPattern = $appSecret . $paramPattern . $appSecret;
-        //print('spi sign_pattern: ' . $signPattern. "\n");
+//        print('spi sign_pattern: ' . $signPattern. "\n");
         if($signMethod == 2) {
             return hash_hmac("sha256", $signPattern, $appSecret);
         }

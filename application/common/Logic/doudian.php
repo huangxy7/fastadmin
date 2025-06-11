@@ -123,47 +123,29 @@ class doudian
             if (!$appSecret) {
                 throw new \Exception('App secret is not configured.');
             }
-
             // 根据请求方法获取参数
-            if ($request->isGet()) {
-                $appkey      = $request->param('app_key');
-                $timestamp   = $request->param('timestamp');
-                $paramJson   = $request->param('param_json');
-                $sign        = $request->param('sign');
-                $sign_method = $request->param('sign_method');
-            } elseif ($request->isPost()) {
-                $appkey      = $request->param('app_key');
-                $timestamp   = $request->param('timestamp');
-                $paramJson   = $request->getContent();
-                $sign        = $request->param('sign');
-                $sign_method = $request->param('sign_method');
-            } else {
-                throw new \Exception('Unsupported request method.');
-            }
-
+            $appkey      = $request->param('app_key');
+            $timestamp   = $request->param('timestamp');
+            $paramJson   = $request->getContent();
+            $sign        = $request->param('sign');
+            $get_sign_method = $request->param('sign_method');
             // 处理 param_json 参数
-            $cleanJson   = htmlspecialchars_decode($paramJson);
-            $decodedJson = urldecode($cleanJson);
-            $data        = json_decode($decodedJson, true);
+            $paramJson = json_decode($paramJson, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new \Exception('JSON decode error: ' . json_last_error_msg());
             }
-
             // 将 string 类型的 paramJson 转成数组
-            $param_json = \SignUtil::marshal($data);
-
+            $param_json = \SignUtil::marshal($paramJson);
             // 转换签名方法为数字
-            if ($sign_method !== 'md5') {
+            $sign_method = 1; //默认md5
+            if ($get_sign_method == 'hmac-sha256') {
                 $sign_method = 2; // hmac-sha256
-            } else {
-                $sign_method = 1; //md5
             }
-
             // 计算签名
             $calcSign = \SignUtil::spiSign($appkey, $appSecret, $timestamp, $param_json, $sign_method);
             // 验证签名
-            if( $sign !== $calcSign) {
-                throw new \Exception('Sign or calculated sign is empty.'. ' Received sign: ' . $sign . ', Calculated sign: ' . $calcSign);
+            if ($sign !== $calcSign) {
+                throw new \Exception('Sign or calculated sign is empty.' . ' Received sign: ' . $sign . ', Calculated sign: ' . $calcSign);
             }
             return true;
         } catch (\Exception $e) {
@@ -277,14 +259,14 @@ class doudian
 
     public function orderResult($trade_order_no): array
     {
-        $order = $this->model->where('trade_order_no', $trade_order_no)->find();
+        $order   = $this->model->where('trade_order_no', $trade_order_no)->find();
         $request = new \TopupResultRequest();
-        $param = new \TopupResultParam();
+        $param   = new \TopupResultParam();
         $request->setParam($param);
-        $param->trade_order_no = $trade_order_no;
-        $param->topup_biz = $order['topup_biz'];
+        $param->trade_order_no  = $trade_order_no;
+        $param->topup_biz       = $order['topup_biz'];
         $param->seller_order_no = $order['seller_order_no'];
-        if($order['status'] == $this->model::STATUS_SUCCESS) {
+        if ($order['status'] == $this->model::STATUS_SUCCESS) {
             $param->seller_order_status = "SUCCESS";
         } else {
             $param->seller_order_status = "FAIL";
@@ -295,7 +277,7 @@ class doudian
 //        $param->url_type = "normal";//去使用链接类型 小程序：microapp 普通链接：normal
 //        $param->topup_failure_reason_code = "10001";//充值失败错误码 10001：手机号码无效 10002：商家缺货 10003 ： 命中运营商风控策略
         $accessToken = $this->token();
-        $response = $request->execute($accessToken);
+        $response    = $request->execute($accessToken);
         if ($response->isSuccess()) {
             return ['status' => 1, 'message' => '订单结果提交成功'];
         } else {
