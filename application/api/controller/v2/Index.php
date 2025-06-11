@@ -43,7 +43,10 @@ class Index extends Api
      */
     public function get()
     {
-        $resData['status'] = 0;
+        $resData      = [
+            'status'  => 0,
+            'message' => '没有待处理订单',
+        ];
         $weidianLogic = new \app\common\Logic\weidian();
         $doudianLogic = new \app\common\Logic\doudian();
         //随机选取一个
@@ -54,7 +57,7 @@ class Index extends Api
                 $resData = $weidianLogic->getWaitHandleOrders();
             }
         } else {
-            if(!config('doudian.debug')){
+            if (!config('doudian.debug')) {
                 $resData = $weidianLogic->getWaitHandleOrders();
                 if (!$resData) {
                     $resData = $doudianLogic->getWaitHandleOrders();
