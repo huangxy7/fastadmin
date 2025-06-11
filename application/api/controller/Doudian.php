@@ -27,7 +27,7 @@ class Doudian extends Api
         $doudianLogic = new \app\common\Logic\doudian();
         $res          = $doudianLogic->checkSpiSign($this->request);
         if (!$res) {
-//            $this->error('签名验证失败', [], 100001);
+            $this->error('签名验证失败', [], 100001);
         }
     }
 

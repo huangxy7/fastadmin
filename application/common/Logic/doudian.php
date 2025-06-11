@@ -114,9 +114,8 @@ class doudian
     }
 
     /**
-     * @throws Exception
      */
-    public function checkSpiSign(Request $request)
+    public function checkSpiSign(Request $request): bool
     {
         try {
             // 获取应用密钥
@@ -154,18 +153,19 @@ class doudian
             $param_json = \SignUtil::marshal($data);
 
             // 转换签名方法为数字
-            if ($sign_method == 'md5') {
-                $sign_method = 1;
-            } else {
+            if ($sign_method !== 'md5') {
                 $sign_method = 2; // hmac-sha256
+            } else {
+                $sign_method = 1; //md5
             }
 
             // 计算签名
             $calcSign = \SignUtil::spiSign($appkey, $appSecret, $timestamp, $param_json, $sign_method);
-//            var_export($calcSign);
-//            var_export($sign);die;
             // 验证签名
-            return $sign === $calcSign;
+            if( $sign !== $calcSign) {
+                throw new \Exception('Sign or calculated sign is empty.'. ' Received sign: ' . $sign . ', Calculated sign: ' . $calcSign);
+            }
+            return true;
         } catch (\Exception $e) {
             // 记录日志或返回错误信息
             Log::error('Signature verification error: ' . $e->getMessage());
