@@ -56,19 +56,22 @@ class Doudian extends Api
             }
         }
         $doudianLogic    = new \app\common\Logic\doudian();
-        $trade_order_no  = $param['trade_order_no'];
-        $topup_biz       = $param['topup_biz'];
-        $time_start      = $param['time_start'];
+        $trade_order_no  = $param['trade_order_no'] ?? '';
+        $topup_biz       = $param['topup_biz'] ?? '';
+        $time_start      = $param['time_start'] ?? '';
         $time_start      = date('Y-m-d H:i:s', strtotime($time_start));
-        $time_limit      = $param['time_limit'];
-        $buy_num         = $param['buy_num'];
-        $amount_unit     = $param['amount_unit'];
-        $sku_id          = $param['sku_id'];
-        $shop_id         = $param['shop_id'];
-        $account_list    = json_encode($param['account_list']);
-        $code            = $param['code'];
-        $pay_amount      = $param['pay_amount'];
-        $doudian_open_id = $param['doudian_open_id'];
+        $time_limit      = $param['time_limit'] ?? '';
+        $buy_num         = $param['buy_num'] ?? 0;
+        $amount_unit     = $param['amount_unit'] ?? '';
+        $sku_id          = $param['sku_id'] ?? '';
+        $shop_id         = $param['shop_id'] ?? '';
+        $account_list    = json_encode($param['account_list'] ?? [], JSON_UNESCAPED_UNICODE);
+        $code            = $param['code'] ?? '';
+        $pay_amount      = $param['pay_amount'] ?? 0;
+        $doudian_open_id = $param['doudian_open_id'] ?? '';
+        if (empty($trade_order_no) || empty($topup_biz) || empty($time_start) || empty($time_limit) || empty($buy_num) || empty($amount_unit) || empty($sku_id) || empty($shop_id) || empty($account_list) || empty($code) || $pay_amount <= 0 || empty($doudian_open_id)) {
+            $this->error('参数错误', $param, 100002);
+        }
         // 这里可以进行业务逻辑处理，比如保存到数据库等
 
         $res = $doudianLogic->insertOrUpdate([
