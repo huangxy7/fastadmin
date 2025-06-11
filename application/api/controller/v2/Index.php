@@ -43,6 +43,7 @@ class Index extends Api
      */
     public function get()
     {
+        $resData['status'] = 0;
         $weidianLogic = new \app\common\Logic\weidian();
         $doudianLogic = new \app\common\Logic\doudian();
         //随机选取一个
