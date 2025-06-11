@@ -311,6 +311,7 @@ return [
         'secret' => Env::get('payment.secret', '7964199748ee934c9dbc154532a9e93b'),
     ],
     'doudian'                 => [
+        'debug'   => Env::get('doudian.debug', false), // 是否开启调试模式
         'appkey'  => Env::get('doudian.appkey', '7512727046288590355'),
         'secret'  => Env::get('doudian.secret', 'daa1a5c2-5040-4e39-b07e-6b1680026d46'),
         'shop_id' => Env::get('doudian.shop_id', '155321394'),

@@ -49,13 +49,15 @@ class Index extends Api
         $round = rand(1, 2);
         if ($round == 1) {
             $resData = $doudianLogic->getWaitHandleOrders();
-            if (!$resData) {
+            if (!$resData && !config('doudian.debug')) {
                 $resData = $weidianLogic->getWaitHandleOrders();
             }
         } else {
-            $resData = $weidianLogic->getWaitHandleOrders();
-            if (!$resData) {
-                $resData = $doudianLogic->getWaitHandleOrders();
+            if(!config('doudian.debug')){
+                $resData = $weidianLogic->getWaitHandleOrders();
+                if (!$resData) {
+                    $resData = $doudianLogic->getWaitHandleOrders();
+                }
             }
         }
         if ($resData['status'] == 0) {
