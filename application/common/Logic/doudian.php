@@ -41,7 +41,7 @@ class doudian
         $shop_id                                    = config('doudian.shop_id'); // 替换成你的shop_id
         $accessToken                                = \AccessTokenBuilder::build($shop_id, 'ACCESS_TOKEN_SHOP_ID');
         if (!$accessToken->isSuccess()) {
-            throw new \think\Exception('获取抖店access_token失败: ' . $accessToken->getMsg());
+            throw new \think\Exception('获取抖店access_token失败: ' .$accessToken->getCode(). $accessToken->getMsg().json_encode($accessToken));
         }
         $token = $accessToken->getAccessToken();
         if (!$token) {
