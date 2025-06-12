@@ -39,9 +39,9 @@ class doudian
         \GlobalConfig::getGlobalConfig()->appKey    = config('doudian.appkey');
         \GlobalConfig::getGlobalConfig()->appSecret = config('doudian.secret');
         $shop_id                                    = config('doudian.shop_id'); // 替换成你的shop_id
-        $accessToken                                = \AccessTokenBuilder::build($shop_id, 'ACCESS_TOKEN_SHOP_ID');
+        $accessToken                                = \AccessTokenBuilder::build($shop_id, 2);
         if (!$accessToken->isSuccess()) {
-            throw new \think\Exception('获取抖店access_token失败: ' .$accessToken->getCode(). $accessToken->getMsg().json_encode($accessToken));
+            throw new \think\Exception('获取抖店access_token失败: ' .$accessToken->getCode(). $accessToken->getMsg());
         }
         $token = $accessToken->getAccessToken();
         if (!$token) {
