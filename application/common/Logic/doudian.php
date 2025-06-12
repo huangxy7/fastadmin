@@ -41,15 +41,42 @@ class doudian
         $shop_id                                    = config('doudian.shop_id'); // 替换成你的shop_id
         $accessToken                                = \AccessTokenBuilder::build($shop_id, 2);
         if (!$accessToken->isSuccess()) {
-            throw new \think\Exception('获取抖店access_token失败: ' .$accessToken->getCode(). $accessToken->getMsg());
+            throw new \think\Exception('获取抖店access_token失败: ' . $accessToken->getCode() . $accessToken->getMsg());
         }
-        $token = $accessToken->getAccessToken();
+        $token        = $accessToken->getAccessToken();
+        $refreshToken = $accessToken->getRefreshToken();
         if (!$token) {
             throw new \think\Exception('获取抖店access_token失败: access_token 为空');
         }
         // 缓存access_token
-        cache('doudian_access_token', $token, 3600 * 24 * 6); // 缓存1小时
+        cache('doudian_access_token', $token, 3600 * 24 * 6); // 缓存6天
+        cache('doudian_refresh_access_token', $refreshToken, 3600 * 24 * 13); // 缓存13天
         return $token;
+    }
+
+    /**
+     * @return void
+     *
+     * @author HuangXianYun
+     * @time 2025/6/12
+     * 最好半个小时run一次
+     */
+    public function refreshToken()
+    {
+        try {
+            $res = \AccessTokenBuilder::refresh(cache('doudian_refresh_access_token'));
+            if (!$res->isSuccess()) {
+                $this->token();
+                throw new \think\Exception('刷新抖店access_token失败: ' . $res->getCode() . ' ' . $res->getMsg());
+            }
+            $accessToken  = $res->getAccessToken(); // 刷新后的 access_token
+            $refreshToken = $res->getRefreshToken(); // 刷新后的 refresh_token
+            cache('doudian_access_token', $accessToken, 3600 * 24 * 6); // 缓存6天
+            cache('doudian_refresh_access_token', $refreshToken, 3600 * 24 * 13); // 缓存13天
+        } catch (Exception $e) {
+            Log::error('抖店access_token刷新失败: ' . $e->getMessage());
+            return;
+        }
     }
 
     public function update($where, $update): bool
@@ -283,7 +310,7 @@ class doudian
 //        $param->url_type = "normal";//去使用链接类型 小程序：microapp 普通链接：normal
 //        $param->topup_failure_reason_code = "10001";//充值失败错误码 10001：手机号码无效 10002：商家缺货 10003 ： 命中运营商风控策略
             $accessToken = $this->token();
-            $response = $request->execute($accessToken);
+            $response    = $request->execute($accessToken);
             if (!$response) {
                 Log::error('Error submitting doudian order result: Response is empty');
                 return false;

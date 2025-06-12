@@ -19,4 +19,5 @@ return [
     'app\admin\command\Api',
     'app\admin\command\Payment',
     'app\admin\command\Exceptiontime',
+    'app\admin\command\Refretoken',
 ];
