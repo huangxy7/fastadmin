@@ -27,10 +27,13 @@ class doudian
 
     }
 
-    public function token()
+    /**
+     * @throws Exception
+     */
+    public function token($cache = true)
     {
         $token = cache('doudian_access_token');
-        if ($token) {
+        if ($token && $cache) {
             return $token;
         }
         \GlobalConfig::getGlobalConfig()->appKey    = config('doudian.appkey');
@@ -124,10 +127,10 @@ class doudian
                 throw new \Exception('App secret is not configured.');
             }
             // 根据请求方法获取参数
-            $appkey      = $request->param('app_key');
-            $timestamp   = $request->param('timestamp');
-            $paramJson   = $request->getContent();
-            $sign        = $request->param('sign');
+            $appkey          = $request->param('app_key');
+            $timestamp       = $request->param('timestamp');
+            $paramJson       = $request->getContent();
+            $sign            = $request->param('sign');
             $get_sign_method = $request->param('sign_method');
             // 处理 param_json 参数
             $paramJson = json_decode($paramJson, true);
@@ -246,8 +249,11 @@ class doudian
         if ($accountName) {
             $update['accountName'] = $accountName;
         }
-        if ($name == '开始处理') {
-            $update['error_time'] = date('Y-m-d H:i:s', time() + 180);
+        if ($name == '充值成功') {
+            $update['status']     = $this->model::STATUS_SUCCESS;
+            $update['error_time'] = null; // 成功时不需要错误时间
+            //通知抖店充值成功
+            $this->orderResult($data, $this->model::STATUS_SUCCESS);
         }
         $res = $this->model->where('trade_order_no', $order_id)->update($update);
         if ($res === false) {
@@ -257,32 +263,40 @@ class doudian
         return true;
     }
 
-    public function orderResult($trade_order_no): array
+    public function orderResult($orderDetail, $status): bool
     {
-        $order   = $this->model->where('trade_order_no', $trade_order_no)->find();
-        $request = new \TopupResultRequest();
-        $param   = new \TopupResultParam();
-        $request->setParam($param);
-        $param->trade_order_no  = $trade_order_no;
-        $param->topup_biz       = $order['topup_biz'];
-        $param->seller_order_no = $order['seller_order_no'];
-        if ($order['status'] == $this->model::STATUS_SUCCESS) {
-            $param->seller_order_status = "SUCCESS";
-        } else {
-            $param->seller_order_status = "FAIL";
-        }
+        try {
+            $request = new \TopupResultRequest();
+            $param   = new \TopupResultParam();
+            $request->setParam($param);
+            $param->trade_order_no  = $orderDetail['trade_order_no'];
+            $param->topup_biz       = $orderDetail['topup_biz'];
+            $param->seller_order_no = $orderDetail['seller_order_no'];
+            if ($status == $this->model::STATUS_SUCCESS) {
+                $param->seller_order_status = "SUCCESS";
+            } else {
+                $param->seller_order_status = "FAIL";
+            }
 //        $param->err_code = "1003";
 //        $param->err_desc = "参数校验失败";
 //        $param->url = "";//去使用链接
 //        $param->url_type = "normal";//去使用链接类型 小程序：microapp 普通链接：normal
 //        $param->topup_failure_reason_code = "10001";//充值失败错误码 10001：手机号码无效 10002：商家缺货 10003 ： 命中运营商风控策略
-        $accessToken = $this->token();
-        $response    = $request->execute($accessToken);
-        if ($response->isSuccess()) {
-            return ['status' => 1, 'message' => '订单结果提交成功'];
-        } else {
-            Log::error('Error submitting doudian order result: ' . $response->getMsg());
-            return ['status' => 0, 'message' => '订单结果提交失败: ' . $response->getMsg()];
+            $accessToken = $this->token();
+            $response = $request->execute($accessToken);
+            if (!$response) {
+                Log::error('Error submitting doudian order result: Response is empty');
+                return false;
+            }
+            // 检查响应是否成功
+            if ($response['code'] != 10000) {
+                Log::error('Error submitting doudian order result: ' . $response->getMsg() . ' Sub Code: ' . $response->getSubCode() . ' Sub Msg: ' . $response->getSubMsg());
+                return false;
+            }
+        } catch (Exception $e) {
+            Log::error('Error submitting doudian order result: ' . $e->getMessage());
+            return false;
         }
+        return true;
     }
 }

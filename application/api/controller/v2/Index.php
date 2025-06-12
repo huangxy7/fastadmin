@@ -23,12 +23,15 @@ class Index extends Api
      */
     public function index()
     {
-        $doudianLogic = new \app\common\Logic\doudian();
-        $doudianLogic->orderResult('4754409207604380918');
         $this->success('请求成功');
     }
 
-
+    public function doudianToken()
+    {
+        $doudianLogic = new \app\common\Logic\doudian();
+        $res = $doudianLogic->token();
+        $this->success('请求成功', $res);
+    }
     public function token()
     {
         $token  = get_token(true);
