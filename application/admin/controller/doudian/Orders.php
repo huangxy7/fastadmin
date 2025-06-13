@@ -41,7 +41,7 @@ class Orders extends Backend
 
     public function index()
     {
-        $get_data = \app\common\model\Config::where('name', 'get_data')->find();
+        $get_data = \app\common\model\Config::where('name', 'get_data_doudian')->find();
         $this->assign('get_data', $get_data['value']);
         //设置过滤方法
         $this->request->filter(['strip_tags', 'trim']);
@@ -144,7 +144,7 @@ class Orders extends Backend
      */
     public function start($ids = '')
     {
-        \app\common\model\Config::update(['value' => 1], ['name' => 'get_data']);
+        \app\common\model\Config::update(['value' => 1], ['name' => 'get_data_doudian']);
         $this->success("模拟启动成功");
     }
 
@@ -153,7 +153,7 @@ class Orders extends Backend
      */
     public function pause($ids = '')
     {
-        \app\common\model\Config::update(['value' => 0], ['name' => 'get_data']);
+        \app\common\model\Config::update(['value' => 0], ['name' => 'get_data_doudian']);
         $this->success("模拟暂停成功");
     }
 
