@@ -74,6 +74,8 @@ class doudian
             $refreshToken = $res->getRefreshToken(); // 刷新后的 refresh_token
             cache('doudian_access_token', $accessToken, 3600 * 24 * 6); // 缓存6天
             cache('doudian_refresh_access_token', $refreshToken, 3600 * 24 * 13); // 缓存13天
+            print_r('抖店access_token刷新成功: ' . $accessToken . PHP_EOL);
+            print_r('抖店refresh_token刷新成功: ' . $refreshToken . PHP_EOL);
         } catch (Exception $e) {
             Log::error('抖店access_token刷新失败: ' . $e->getMessage());
             return;
