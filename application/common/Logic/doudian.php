@@ -64,6 +64,7 @@ class doudian
     public function refreshToken()
     {
         try {
+            print_r(cache('doudian_refresh_access_token'));
             $res = \AccessTokenBuilder::refresh(cache('doudian_refresh_access_token'));
             if (!$res->isSuccess()) {
                 $this->token();

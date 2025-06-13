@@ -80,7 +80,7 @@ class Index extends Api
         $order_id    = $param['order_id'] ?? "";
         $device      = $param['device'] ?? "";
         $accountName = $param['accountName'] ?? "";
-        $partner     = $param['partner'];
+        $partner     = $param['partner'] ?? "";
         if (!$order_id) {
             $this->error('参数错误, order_id不能为空');
         }
