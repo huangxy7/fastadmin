@@ -335,21 +335,23 @@ class doudian
     public function OrderBatchDecrypt($order_id,$cipher_text): bool
     {
 //        try {
+        \GlobalConfig::getGlobalConfig()->appKey    = config('doudian.appkey');
+        \GlobalConfig::getGlobalConfig()->appSecret = config('doudian.secret');
         $shop_id                                    = config('doudian.shop_id'); // 替换成你的shop_id
         $accessToken                                = \AccessTokenBuilder::build($shop_id, 2);
-            \GlobalConfig::getGlobalConfig()->appKey    = config('doudian.appkey');
-            \GlobalConfig::getGlobalConfig()->appSecret = config('doudian.secret');
-            $request = new \OrderBatchDecryptRequest();
-            $param   = new \OrderBatchDecryptParam();
-            $param->cipher_infos = [
-                [
-                    'auth_id' => $order_id,
-                    'cipher_text' => $cipher_text
-                ],
-            ];
-            $request->setParam($param);
-            $response    = $request->execute($accessToken);
-            print_r($response);die;
+        \GlobalConfig::getGlobalConfig()->appKey    = config('doudian.appkey');
+        \GlobalConfig::getGlobalConfig()->appSecret = config('doudian.secret');
+        $request = new \OrderBatchDecryptRequest();
+        $param   = new \OrderBatchDecryptParam();
+        $param->cipher_infos = [
+            [
+                'auth_id' => $order_id,
+                'cipher_text' => $cipher_text
+            ],
+        ];
+        $request->setParam($param);
+        $response    = $request->execute($accessToken);
+        print_r($response);die;
 
 //        } catch (Exception $e) {
 //            Log::error('Error decrypting doudian order batch: ' . $e->getMessage());
