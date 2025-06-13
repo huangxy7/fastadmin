@@ -64,8 +64,10 @@ class doudian
     public function refreshToken()
     {
         try {
-            print_r(cache('doudian_refresh_access_token'));
+            \GlobalConfig::getGlobalConfig()->appKey    = config('doudian.appkey');
+            \GlobalConfig::getGlobalConfig()->appSecret = config('doudian.secret');
             $res = \AccessTokenBuilder::refresh(cache('doudian_refresh_access_token'));
+            print_r($res);
             if (!$res->isSuccess()) {
                 $this->token();
                 throw new \think\Exception('刷新抖店access_token失败: ' . $res->getCode() . ' ' . $res->getMsg());
