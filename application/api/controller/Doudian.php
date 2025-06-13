@@ -65,13 +65,19 @@ class Doudian extends Api
         $amount_unit     = $param['amount_unit'] ?? '';
         $sku_id          = $param['sku_id'] ?? '';
         $shop_id         = $param['shop_id'] ?? '';
-        $account_list    = json_encode($param['account_list'] ?? [], JSON_UNESCAPED_UNICODE);
+        $account_list    = $param['account_list'] ?? [];
         $code            = $param['code'] ?? '';
         $pay_amount      = $param['pay_amount'] ?? 0;
         $doudian_open_id = $param['doudian_open_id'] ?? '';
-        if (empty($trade_order_no) || empty($topup_biz) || empty($time_start) || empty($time_limit) || empty($buy_num) || empty($amount_unit) || empty($sku_id) || empty($shop_id) || empty($account_list) || empty($code) || $pay_amount <= 0 || empty($doudian_open_id)) {
+        if (empty($trade_order_no) || empty($topup_biz) || empty($time_start) || empty($time_limit) || empty($buy_num) || empty($amount_unit) || empty($sku_id) || empty($shop_id) || $pay_amount <= 0 ) {
             $this->error('参数错误', $param, 100002);
         }
+        //解密
+        foreach ($account_list as &$account) {
+            if (isset($account['encrypt_account_val'])) {
+                $account['encrypt_account_val'] = $doudianLogic->OrderBatchDecrypt($trade_order_no,$account['encrypt_account_val']);
+            }
+        }die;
         // 这里可以进行业务逻辑处理，比如保存到数据库等
 
         $res = $doudianLogic->insertOrUpdate([

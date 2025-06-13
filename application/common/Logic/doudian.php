@@ -300,10 +300,10 @@ class doudian
         try {
             $request = new \TopupResultRequest();
             $param   = new \TopupResultParam();
-            $request->setParam($param);
             $param->trade_order_no  = $orderDetail['trade_order_no'];
             $param->topup_biz       = $orderDetail['topup_biz'];
             $param->seller_order_no = $orderDetail['seller_order_no'];
+            $request->setParam($param);
             if ($status == $this->model::STATUS_SUCCESS) {
                 $param->seller_order_status = "SUCCESS";
             } else {
@@ -330,5 +330,31 @@ class doudian
             return false;
         }
         return true;
+    }
+
+    public function OrderBatchDecrypt($order_id,$cipher_text): bool
+    {
+//        try {
+        $shop_id                                    = config('doudian.shop_id'); // 替换成你的shop_id
+        $accessToken                                = \AccessTokenBuilder::build($shop_id, 2);
+            \GlobalConfig::getGlobalConfig()->appKey    = config('doudian.appkey');
+            \GlobalConfig::getGlobalConfig()->appSecret = config('doudian.secret');
+            $request = new \OrderBatchDecryptRequest();
+            $param   = new \OrderBatchDecryptParam();
+            $param->cipher_infos = [
+                [
+                    'auth_id' => $order_id,
+                    'cipher_text' => $cipher_text
+                ],
+            ];
+            $request->setParam($param);
+            $response    = $request->execute($accessToken);
+            print_r($response);die;
+
+//        } catch (Exception $e) {
+//            Log::error('Error decrypting doudian order batch: ' . $e->getMessage());
+//            return false;
+//        }
+//        return true;
     }
 }
