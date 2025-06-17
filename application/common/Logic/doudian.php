@@ -351,21 +351,26 @@ class doudian
             ];
             $request->setParam($param);
             $response = $request->execute($accessToken);
-            if ($response['code'] != 10000) {
+            if ($response->code != 10000) {
                 Log::error('Error decrypting doudian order batch: ' . 'data: ' . json_encode($response, JSON_UNESCAPED_UNICODE));
-                return false;
+                return "";
             }
-            $decryptedData = $response['result']['cipher_infos'][0]['decrypted_text'] ?? '';
+            $decryptedData = '';
+            // 通过对象方式获取 decrypt_text
+            if (json_last_error() === JSON_ERROR_NONE && isset($response->data->decrypt_infos[0]->decrypt_text)) {
+                $decryptedData = $response->data->decrypt_infos[0]->decrypt_text;
+            } else {
+                Log::error('Error decrypting doudian order batch: ' . json_last_error_msg());
+            }
             if (empty($decryptedData)) {
                 Log::error('Error decrypting doudian order batch: Decrypted data is empty');
-                return false;
+                return "";
             }
             // 返回解密后的数据
             return $decryptedData;
         } catch (Exception $e) {
             Log::error('Error decrypting doudian order batch: ' . $e->getMessage());
-
-            return false;
+            return "";
         }
     }
 

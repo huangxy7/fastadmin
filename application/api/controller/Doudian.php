@@ -84,7 +84,7 @@ class Doudian extends Api
         //)
         foreach ($account_list as &$account) {
             if (isset($account['encrypt_account_val'])) {
-                $account['encrypt_account_val'] = $doudianLogic->OrderBatchDecrypt($trade_order_no,$account['encrypt_account_val']);
+                $account['decrypt_account_val'] = $doudianLogic->OrderBatchDecrypt($trade_order_no,$account['encrypt_account_val']) ?? '';
             }
         }
         $account_list = json_encode($account_list, JSON_UNESCAPED_UNICODE);
