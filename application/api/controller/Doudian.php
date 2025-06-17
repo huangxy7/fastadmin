@@ -82,11 +82,11 @@ class Doudian extends Api
         //[data] =>
         //[log_id] => 20250613180739B592112979F6D0515C0B
         //)
-//        foreach ($account_list as &$account) {
-//            if (isset($account['encrypt_account_val'])) {
-//                $account['encrypt_account_val'] = $doudianLogic->OrderBatchDecrypt($trade_order_no,$account['encrypt_account_val']);
-//            }
-//        }
+        foreach ($account_list as &$account) {
+            if (isset($account['encrypt_account_val'])) {
+                $account['encrypt_account_val'] = $doudianLogic->OrderBatchDecrypt($trade_order_no,$account['encrypt_account_val']);
+            }
+        }
         $account_list = json_encode($account_list, JSON_UNESCAPED_UNICODE);
         // 这里可以进行业务逻辑处理，比如保存到数据库等
 

@@ -66,7 +66,7 @@ class doudian
         try {
             \GlobalConfig::getGlobalConfig()->appKey    = config('doudian.appkey');
             \GlobalConfig::getGlobalConfig()->appSecret = config('doudian.secret');
-            $res = \AccessTokenBuilder::refresh(cache('doudian_refresh_access_token'));
+            $res                                        = \AccessTokenBuilder::refresh(cache('doudian_refresh_access_token'));
             print_r($res);
             if (!$res->isSuccess()) {
                 $this->token();
@@ -298,8 +298,8 @@ class doudian
     public function orderResult($orderDetail, $status): bool
     {
         try {
-            $request = new \TopupResultRequest();
-            $param   = new \TopupResultParam();
+            $request                = new \TopupResultRequest();
+            $param                  = new \TopupResultParam();
             $param->trade_order_no  = $orderDetail['trade_order_no'];
             $param->topup_biz       = $orderDetail['topup_biz'];
             $param->seller_order_no = $orderDetail['seller_order_no'];
@@ -332,31 +332,49 @@ class doudian
         return true;
     }
 
-    public function OrderBatchDecrypt($order_id,$cipher_text): bool
+    public function OrderBatchDecrypt($order_id, $cipher_text)
     {
-//        try {
-        \GlobalConfig::getGlobalConfig()->appKey    = config('doudian.appkey');
-        \GlobalConfig::getGlobalConfig()->appSecret = config('doudian.secret');
-        $shop_id                                    = config('doudian.shop_id'); // 替换成你的shop_id
-        $accessToken                                = \AccessTokenBuilder::build($shop_id, 2);
-        \GlobalConfig::getGlobalConfig()->appKey    = config('doudian.appkey');
-        \GlobalConfig::getGlobalConfig()->appSecret = config('doudian.secret');
-        $request = new \OrderBatchDecryptRequest();
-        $param   = new \OrderBatchDecryptParam();
-        $param->cipher_infos = [
-            [
-                'auth_id' => $order_id,
-                'cipher_text' => $cipher_text
-            ],
-        ];
-        $request->setParam($param);
-        $response    = $request->execute($accessToken);
-        print_r($response);die;
+        try {
+            \GlobalConfig::getGlobalConfig()->appKey    = config('doudian.appkey');
+            \GlobalConfig::getGlobalConfig()->appSecret = config('doudian.secret');
+            $shop_id                                    = config('doudian.shop_id'); // 替换成你的shop_id
+            $accessToken                                = \AccessTokenBuilder::build($shop_id, 2);
+            \GlobalConfig::getGlobalConfig()->appKey    = config('doudian.appkey');
+            \GlobalConfig::getGlobalConfig()->appSecret = config('doudian.secret');
+            $request                                    = new \OrderBatchDecryptRequest();
+            $param                                      = new \OrderBatchDecryptParam();
+            $param->cipher_infos                        = [
+                [
+                    'auth_id'     => $order_id,
+                    'cipher_text' => $this->recursive_stripslashes($cipher_text), // 这里需要对字符串进行 stripslashes 处理
+                ],
+            ];
+            $request->setParam($param);
+            $response = $request->execute($accessToken);
+            if ($response['code'] != 10000) {
+                Log::error('Error decrypting doudian order batch: ' . 'data: ' . json_encode($response, JSON_UNESCAPED_UNICODE));
+                return false;
+            }
+            $decryptedData = $response['result']['cipher_infos'][0]['decrypted_text'] ?? '';
+            if (empty($decryptedData)) {
+                Log::error('Error decrypting doudian order batch: Decrypted data is empty');
+                return false;
+            }
+            // 返回解密后的数据
+            return $decryptedData;
+        } catch (Exception $e) {
+            Log::error('Error decrypting doudian order batch: ' . $e->getMessage());
 
-//        } catch (Exception $e) {
-//            Log::error('Error decrypting doudian order batch: ' . $e->getMessage());
-//            return false;
-//        }
-//        return true;
+            return false;
+        }
+    }
+
+    function recursive_stripslashes($data)
+    {
+        if (is_array($data)) {
+            return array_map('recursive_stripslashes', $data);
+        } else {
+            return stripslashes($data);
+        }
     }
 }
