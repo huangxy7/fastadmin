@@ -76,14 +76,13 @@ class Orders extends Backend
                 $list->items()[$k]['system_status'] = $v['system_status_name'];
             }
             $account_list = json_decode($v['account_list'], true);
-
-            $merchant_code = [];
+            $customInfos_value = [];
             foreach ($account_list as $vs) {
-                $merchant_code[] = $vs['account_name'];
-                $customInfos_value[] = $vs['account_val'];
+                if(isset($vs['decrypt_account_val']) && $vs['decrypt_account_val'] != "") {
+                    $customInfos_value[] = $vs['decrypt_account_val'];
+                }
             }
             $list->items()[$k]['customInfos_value'] = implode(",", $customInfos_value);
-            $list->items()[$k]['merchant_code'] = implode(",", $merchant_code);
         }
         $result = ['total' => $list->total(), 'rows' => $list->items()];
         return json($result);
