@@ -71,7 +71,7 @@ class Orders extends Backend
             ->order($sort, $order)
             ->paginate($limit);
         foreach ($list->items() as $k => $v) {
-            $list->items()[$k]['pay_amount'] = round($v['pay_amount']/100,0);
+            $list->items()[$k]['pay_amount'] = round($v['pay_amount']/100,2);
             if ($v['system_status'] == 3) {
                 $list->items()[$k]['system_status'] = $v['system_status_name'];
             }
@@ -99,7 +99,15 @@ class Orders extends Backend
             $this->error(__('You have no permission'));
         }
         if (false === $this->request->isPost()) {
+            $row['pay_amount'] = round($row['pay_amount']/100,2);
             $row['account_list'] = json_decode($row['account_list'], true);
+            $customInfos_value = [];
+            foreach ($row['account_list'] as $vs) {
+                if(isset($vs['decrypt_account_val']) && $vs['decrypt_account_val'] != "") {
+                    $customInfos_value[] = $vs['decrypt_account_val'];
+                }
+            }
+            $row['decrypt_account_val'] = implode(",", $customInfos_value);
             $this->view->assign('row', $row);
             $this->view->assign('items', $row['account_list']);
 

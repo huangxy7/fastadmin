@@ -16,7 +16,7 @@
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('金额')}:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-total" class="form-control" name="row[pay_amount]" type="text" value="{$row.pay_amount|htmlentities}" readonly="readonly">
+            <input id="c-pay_amount" class="form-control" name="row[pay_amount]" type="text" value="{$row.pay_amount|htmlentities}" readonly="readonly">
         </div>
     </div>
 
@@ -38,7 +38,7 @@
         <label class="control-label col-xs-12 col-sm-2">{:__('充值账号')}:</label>
         <div class="col-xs-12 col-sm-8">
             {foreach name="items" item="vo"}
-            <input id="c" class="form-control"  type="text" value="{$vo.account_val|htmlentities}" readonly="readonly">
+            <input id="c-decrypt_account_val" class="form-control"  type="text" value="{$vo.decrypt_account_val|htmlentities}" readonly="readonly">
             {/foreach}
         </div>
     </div>
