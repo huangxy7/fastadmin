@@ -227,7 +227,7 @@ class doudian
                     if (!$this->isLock($v['id'])) {
                         $this->lock($v['id']);
                         Db::startTrans();
-                        $data = $this->model->where('id', $v['id'])->where('status', $this->model::STATUS_IN_PROCESS)->where('system_status', $this->model::SYSTEM_STATUS_WAIT)->field('id,status,trade_order_no,time_start,account_list,pay_amount')->lock(true)->find();
+                        $data = $this->model->where('id', $v['id'])->where('status', $this->model::STATUS_IN_PROCESS)->where('system_status', $this->model::SYSTEM_STATUS_WAIT)->field('id,status,code,trade_order_no,time_start,account_list,pay_amount')->lock(true)->find();
                         if (!$data) {
                             Db::rollback();
                         } else {
@@ -248,8 +248,8 @@ class doudian
                             'order_id'     => $data['trade_order_no'],
                             'partner'      => "doudian",
                             'time'         => $data['time_start'],
-                            'seller_note'  => '',
-                            'total'        => $data['pay_amount'],
+                            'seller_note'  => $data['code'],
+                            'total'        => round($data['pay_amount']/100,2),
                             'account_list' => $account_list,
                         ];
                         return ['status' => 1, 'message' => '获取数据成功', 'data' => $res];
