@@ -249,7 +249,7 @@ class doudian
                             'partner'      => "doudian",
                             'time'         => $data['time_start'],
                             'seller_note'  => $data['code'],
-                            'total'        => round($data['pay_amount']/100,2),
+                            'total'        => round($data['pay_amount'] / 100, 2),
                             'account_list' => $account_list,
                         ];
                         return ['status' => 1, 'message' => '获取数据成功', 'data' => $res];
@@ -269,6 +269,7 @@ class doudian
         if (!$data) {
             return false;
         }
+
         $update = [
             'system_status' => 3,
         ];
@@ -281,11 +282,14 @@ class doudian
         if ($accountName) {
             $update['accountName'] = $accountName;
         }
-        if ($name == '充值成功') {
+        if (mb_strpos($name, '充值成功') !== false) {
             $update['status']     = $this->model::STATUS_SUCCESS;
             $update['error_time'] = null; // 成功时不需要错误时间
-            //通知抖店充值成功
-            $this->orderResult($data, $this->model::STATUS_SUCCESS);
+//通知抖店充值成功
+            $res = $this->orderResult($data, $this->model::STATUS_SUCCESS);
+            if ($res === false) {
+                Log::error('Error updating doudian order status: ' . $this->model::STATUS_SUCCESS . "data:" . json_encode($data));
+            }
         }
         $res = $this->model->where('trade_order_no', $order_id)->update($update);
         if ($res === false) {
@@ -298,35 +302,38 @@ class doudian
     public function orderResult($orderDetail, $status): bool
     {
         try {
-            $request                = new \TopupResultRequest();
-            $param                  = new \TopupResultParam();
-            $param->trade_order_no  = $orderDetail['trade_order_no'];
-            $param->topup_biz       = $orderDetail['topup_biz'];
-            $param->seller_order_no = $orderDetail['seller_order_no'];
+            \GlobalConfig::getGlobalConfig()->appKey    = config('doudian.appkey');
+            \GlobalConfig::getGlobalConfig()->appSecret = config('doudian.secret');
+            $shop_id                                    = config('doudian.shop_id'); // 替换成你的shop_id
+            $accessToken                                = \AccessTokenBuilder::build($shop_id, 2);
+            $request                                    = new \TopupResultRequest();
+            $param                                      = new \TopupResultParam();
+            $param->trade_order_no                      = $orderDetail['trade_order_no'];
+            $param->topup_biz                           = $orderDetail['topup_biz'];
+            $param->seller_order_no                     = $orderDetail['trade_order_no'];
             $request->setParam($param);
             if ($status == $this->model::STATUS_SUCCESS) {
                 $param->seller_order_status = "SUCCESS";
             } else {
                 $param->seller_order_status = "FAIL";
             }
-//        $param->err_code = "1003";
-//        $param->err_desc = "参数校验失败";
-//        $param->url = "";//去使用链接
-//        $param->url_type = "normal";//去使用链接类型 小程序：microapp 普通链接：normal
-//        $param->topup_failure_reason_code = "10001";//充值失败错误码 10001：手机号码无效 10002：商家缺货 10003 ： 命中运营商风控策略
-            $accessToken = $this->token();
-            $response    = $request->execute($accessToken);
+            // $param->err_code = "1003";
+            // $param->err_desc = "参数校验失败";
+            // $param->url = "";//去使用链接
+            // $param->url_type = "normal";//去使用链接类型 小程序：microapp 普通链接：normal
+            // $param->topup_failure_reason_code = "10001";//充值失败错误码 10001：手机号码无效 10002：商家缺货 10003 ： 命中运营商风控策略
+            $response = $request->execute($accessToken);
             if (!$response) {
-                Log::error('Error submitting doudian order result: Response is empty');
+                Log::error('huangxytest Error submitting doudian order result: Response is empty');
                 return false;
             }
-            // 检查响应是否成功
-            if ($response['code'] != 10000) {
-                Log::error('Error submitting doudian order result: ' . $response->getMsg() . ' Sub Code: ' . $response->getSubCode() . ' Sub Msg: ' . $response->getSubMsg());
+// 检查响应是否成功
+            if ($response->code != 10000) {
+                Log::error('huangxytest Error submitting doudian order result: ' . json_encode($response));
                 return false;
             }
         } catch (Exception $e) {
-            Log::error('Error submitting doudian order result: ' . $e->getMessage());
+            Log::error('huangxytest Error submitting doudian order result: ' . $e->getMessage());
             return false;
         }
         return true;
